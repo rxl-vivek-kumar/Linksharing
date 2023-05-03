@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Login</title>
+    <title> Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -16,11 +16,10 @@
 
         <!--Navigation bar-->
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+            <div class="container-fluid ">
                 <a class="navbar-brand" href="#">
-                    <img src="images/logo_linkSharing.ico" width="50" height="50"
-                        class="d-inline-block align-text-center">
+                    <g:img dir="images" file="logo_linkSharing.png" width="40" height="40"/>
                     LinkShare
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -39,7 +38,7 @@
                             <!-- Button to trigger modal -->
                             <button type="button" class="btn btn-link chat-icon mt-2" data-bs-toggle="modal"
                                 data-bs-target="#createTopicModal">
-                                <img src="images/createTopic.svg" height="30" width="30"></img>
+                                <g:img dir="images" file="createTopic.svg" width="30" height="30"/>
                             </button>
 
                             <!-- Modal -->
@@ -85,7 +84,7 @@
                             <!-- Button to trigger modal -->
                             <button type="button" class="btn btn-link chat-icon mt-2" data-bs-toggle="modal"
                                 data-bs-target="#sendInvitationModal">
-                                <img src="images/sendInvitation.svg" height="30" width="30"></img>
+                                <g:img dir="images" file="sendInvitation.svg" width="30" height="30"/>
                             </button>
 
                             <!-- Modal -->
@@ -129,25 +128,22 @@
                             <!-- User profile section -->
                             <div class="userProfilePhoto mt-2">
                                 <label for="userProfilePhoto" class="form-label mt-2">
-                                    <a href="#"><img src="images/userProfilePhoto.svg" height="30" width="30"></a>
+                                    <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="30" height="30"/></a>
                                 </label>
                             </div>
                         </li>
                         <li>
-                            <div class="dropdown">
-                                <select class="form-select form-select-sm mt-3 mb-2"
-                                    aria-label=".form-select-lg example">
-                                    <option selected><a href="#">userName</a></option>
-                                    <option><a href="#">Profile</a></option>
-                                    <option><a href="#">Users</a></option>
-                                    <option><a href="#">Topics</a></option>
-                                    <div class="dropdown-divider"></div>
-                                    <option><a href="#">Logout</a></option>
-                                </select>
+                            <div class="dropdown show">
+                              <a class="btn btn-outline btn-xs mt-2 dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                              aria-haspopup="true" aria-expanded="false" style="color:white">
+                                user
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <a class="dropdown-item" href="#">Profile</a>
+                                <a class="dropdown-item" href="#">...</a>
+                                <a class="dropdown-item" href="/Access/logoutUser">Logout</a>
+                              </div>
                             </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="bi bi-person"></i></a>
                         </li>
                     </ul>
                 </div>
@@ -157,23 +153,24 @@
 
     <!-- Main Body -->
     <div class="container-fluid">
-        <div class="row">
+        <div class="row bg-dark mt-1">
 
             <!-- User details card -->
-            <div class="col-md-6">
-                <div class="userDetailsCard mt-4 border-2">
-                    <div class="userDetailsCardBody">
-                        <div class="card">
-                            <div class="row">
-                                <div class="col-sm-3 mt-4 border-2">
-                                     <img src="images/defaultProfileImage.avif" class="profilePhoto-img-left" height="100" width="100" alt="User profile picture">
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="card-body"></div>
-                                        <h5 class="card-title">John Doe</h5>
-                                        <p class="card-text">johndoe@example.com</p>
-                                        <p class="card-text"><strong>Subscriptions:</strong> 10</p>
-                                        <p class="card-text"><strong>Topics:</strong> 5</p>
+            <div class="col-sm-6">
+                <div class="row">
+                    <div class="card mt-4 border-2">
+                        <div class="card-body">
+                            <div class="card">
+                                <div class="row">
+                                    <div class="col-sm-3 mt-4 border-2">
+                                        <g:img dir="images" file="defaultProfileImage.avif" width="150" height="150"/>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="card-body"></div>
+                                        <h5 class="card-title">UserName</h5>
+                                        <p class="card-text">userEmail@example.com</p>
+                                        <p class="card-text"><strong>Subscriptions:</strong> fetchValue</p>
+                                        <p class="card-text"><strong>Topics:</strong> FetchValue</p>
                                     </div>
                                 </div>
                             </div>
@@ -182,38 +179,43 @@
                     </div>
                 </div>
 
+
                 <!-- Subscription details card -->
-                <div class="card mt-3 border-2">
-                    <div class="card-header border-2">
-                        <h2>Subscriptions</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="scrollable-container">
-                            <!-- Add top posts here -->
-                            <ul>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                            </ul>
+                <div class="row">
+                    <div class="card mt-3 border-2">
+                        <div class="card-header border-2">
+                            <h2>Subscriptions</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="scrollable-container">
+                                <!-- Add top posts here -->
+                                <ul>
+                                    <li></li>
+                                    <li></li>
+                                    <li></li>
+                                    <li></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Trending Topics card -->
-                <div class="card mt-3 border-2">
-                    <div class="card-header border-2">
-                        <h2>Trending Topics</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="scrollable-container">
-                            <!-- Add top posts here -->
-                            <ul>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                            </ul>
+                <div class="row">
+                    <div class="card mt-3 border-2">
+                        <div class="card-header border-2">
+                            <h2>Trending Topics</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="scrollable-container">
+                                <!-- Add top posts here -->
+                                <ul>
+                                    <li></li>
+                                    <li></li>
+                                    <li></li>
+                                    <li></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -221,7 +223,7 @@
             </div>
 
             <!-- User Inbox -->
-            <div class="col-md-6 mt-4">
+            <div class="col-sm-6 mt-4">
                 <div class="card border-2">
                     <div class="card-header border-2">
                         <h2>Inbox</h2>

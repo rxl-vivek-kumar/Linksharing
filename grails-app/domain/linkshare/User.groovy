@@ -8,8 +8,6 @@ class User {
     String firstName;
     String lastName;
     byte[] photo;
-    Boolean admin;
-    Boolean active;
     Date dateCreated;
     Date lastUpdated;
 
@@ -17,11 +15,11 @@ class User {
                     subscriptions: Subscription,readingItems:ReadingItem]
 
     static constraints = {
-        email unique:true, email:true
+        email unique:true
         userName unique:true
         password  blank:false
-        firstName nullable: false
-        lastName nullable: true
+        firstName nullable:false
+        lastName nullable:true
         photo nullable:true
     }
     static mapping = {

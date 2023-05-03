@@ -2,7 +2,8 @@ package linkshare
 
 class UserController {
 
-    def index(Integer max) {
+    def index() {
+        render(view:'dashboard')
 
     }
 

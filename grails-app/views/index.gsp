@@ -16,12 +16,10 @@
     </style>
 
     <!-- Navigation bar -->
-    <nav class="navbar bg-body-primary">
-        <div class="container-fluid " >
+    <nav class="navbar navbar-light bg-dark">
+        <div class="container-fluid bg-body-primary " >
           <a class="navbar-brand" href="#">
-             <img src="/home/lt-vivekk/linkShare/grails-app/assets/images/logo_linkSharing.ico"  width="50" height="50"
-                class="d-inline-block align-text-center">LinkShare
-             </img>
+             <g:img dir="images" file="logo_linkSharing.png" width="40" height="40"/>LinkShare
           </a>
           <form class="d-flex" role="search">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -32,7 +30,7 @@
 
     <!-- Main Content -->
     <div class="container-fluid">
-		<div class="row">
+		<div class="row bg-dark mt-1">
 			<div class="col-md-6">
 				<div class="card mt-4 border-2">
 					<div class="card-header border-2">
@@ -51,19 +49,24 @@
 					</div>
 				</div>
 
-				<div class="topPostCard mt-3 border-2">
-					<div class="topPostCard-header border-2">
+				<div class="card mt-3 border-2">
+					<div class="card-header border-2">
 						<h2>Top Posts</h2>
 					</div>
-					<div class="topPostCard-body">
-						<div class="scrollable-container">
+					<div class="card-body">
+						<div class="scrollable-container" style="overflow-y:scroll; max-height:150px">
 							<!-- Add top posts here -->
                             <ul>
                                 <li></li>
                                 <li></li>
                                 <li></li>
                                 <li></li>
-
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
                             </ul>
 						</div>
 					</div>
@@ -72,80 +75,80 @@
 
             <!-- login part -->
             <div class="col-md-6 mt-4">
-				<div class="loginCard border-2" >
-					<div class="loginCard-header border-2" >
+				<div class="card border-2" >
+					<div class="card-header border-2" >
 						<h2>Login</h2>
 					</div>
-					<div class="loginCard-body" style="background-color: rgba(69, 68, 70, 0.144);">
-						<g:form controller='Login' action="index">
+					<div class="card-body" style="background-color: rgba(69, 68, 70, 0.144);">
+						<g:form controller="Access" action="loginUser">
 							<div class="form-group">
 								<label for="email">Email/Username:</label>
-								<input type="text" class="form-control" id="email" name="email" required>
+								<input type="text" class="form-control" id="loginEmail" name="loginEmail" required>
 							</div>
 							<div class="form-group">
 								<label for="password">Password:</label>
-								<input type="password" class="form-control" id="password" name="password" required>
+								<input type="password" class="form-control" id="loginPassword" name="loginPassword" required>
 							</div>
 							<div class="form-group mt-2">
 								<a href="#" id="forgotPassword">Forgot Password?</a>
-							    <button type="submit" id="login" class="btn btn-primary offset-5 mt-2">Login</button>
+							    <button type="submit" id="login" name="login" class="btn btn-primary offset-5 mt-2">Login</button>
                             </div>
 						</g:form>
 					</div>
 				</div>
 
                 <!-- Register part -->
-                <div class="registerCard mt-3 " >
-					<div class="registerCard-header border-2">
+                <div class="card mt-3 " >
+					<div class="card-header border-2">
 						<h2>Register</h2>
 					</div>
-					<div class="registerCard-body border-2" style="background-color: rgba(69, 68, 70, 0.144);">
-                        <g:form controller='Register' action="index">
+					<div class="card-body border-2" style="background-color: rgba(69, 68, 70, 0.144);">
+                        <g:form controller="Access" action="registerUser">
                             <div class="row mb-3">
                                 <div class="col-sm-4">First Name*</div>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="firstName" aria-label="First name">
+                                    <input type="text" class="form-control" name="firstName" id="firstName" aria-label="First name">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-4">Last Name*</div>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="lastName" aria-label="Last name">
+                                    <input type="text" class="form-control" name="lastName" id="lastName" aria-label="Last name">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-4">Email*</div>
                                 <div class="col-sm-7">
-                                    <input type="email" class="form-control" id="email" >
+                                    <input type="email"  name="registerEmail" class="form-control" id="registerEmail" >
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-4">Username*</div>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" id="userName" aria-label="userName">
+                                    <input type="text" class="form-control" name="registerUserName" id="registerUserName" aria-label="registerUserName">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-4">Password*</div>
                                 <div class="col-sm-7">
-                                    <input type="password" class="form-control" id="password">
+                                    <input type="password" class="form-control" name="registerPassword" id="registerPassword">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-4">Confirm Password*</div>
                                 <div class="col-sm-7">
-                                    <input type="password" class="form-control" id="confirmPassword">
+                                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-sm-4">Photo</div>
                                 <div class="col-sm-7">
-                                    <input type="file" name="profilePhoto" id="profilePhoto" accept="image/x-png,image/gif,image/jpeg,image/avif" />
+                                    <input type="file" name="photo" id="profilePhoto" accept="image/x-png,image/gif,image/jpeg,image/avif" />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-5 offset-7">
-                                    <button type="submit" class="btn btn-primary" id="register">Register</button>
+                                    <button type="submit" class="btn btn-primary" name="register" id="register">Register</button>
                                 </div>
                             </div>
                         </g:form>

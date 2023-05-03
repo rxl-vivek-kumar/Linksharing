@@ -1,5 +1,7 @@
 package linkshare
 
+import Enum.VisibilityEnum
+
 
 class Topic {
 
@@ -7,6 +9,7 @@ class Topic {
     User createdBy;
     Date dateCreated;
     Date lastUpdated;
+    VisibilityEnum visibility;
     static hasMany = [resources:Resource,subscriptions:Subscription]
     static belongsTo=[createdBy:User]
     static constraints = {
