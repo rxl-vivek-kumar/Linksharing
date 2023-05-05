@@ -1,8 +1,5 @@
 package linkshare
 
-import Enum.VisibilityEnum
-
-
 class Topic {
 
     String name;
@@ -13,12 +10,13 @@ class Topic {
     static hasMany = [resources:Resource,subscriptions:Subscription]
     static belongsTo=[createdBy:User]
     static constraints = {
-        name unique: true
+        visibility nullable:false
     }
     static mapping={
         table 'Topic'
         name column: 'name'
         createdBy column: 'createdBy'
+        dateCreated column: 'dateCreated'
         lastUpdated column: 'lastUpdated'
     }
 }

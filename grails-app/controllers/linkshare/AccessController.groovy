@@ -1,9 +1,15 @@
 package linkshare
 
 class AccessController {
-
+    def LoginUserService
+    def RecentPostService
     def index() {
 
+    }
+    def recentPosts()
+    {
+        List<Resource> recentPost=RecentPostService.serviceMethod()
+        render recentPost
     }
 
     def registerUser(){
@@ -13,31 +19,32 @@ class AccessController {
         u.email=params.registerEmail
         u.userName=params.registerUserName
         u.password=params.registerPassword
-        if(params.registerPassword==params.confirmPassword){
-            u.save(flush:true, failOnError:true)
+        u.validate()
+        if(u.hasErrors()){
+            u.errors.allErrors.each{
+                println it
+            }
         }
-        redirect(url:"/")
+        else  {
+            u.save(flush:true,failOnError:true)
+            redirect(url:"/")
+        }
+//        if(params.registerPassword==params.confirmPassword){
+//            u.save(flush:true, failOnError:true)
+//        }
+
     }
 
     def loginUser(){
-
-
-        String userEmail=params.loginEmail
-        String userPassword=params.loginPassword
-        User u = User.findByEmailOrUserName(userEmail,userEmail);
-
-        session.USER_ID = u.id
-
-        if(!u){
-            render "user dont' exist"
+        flash.message="${LoginUserService.serviceMethod(params)}"
+        if(!flash.message){
+            session.currentUser=User.findByEmailOrUserName(params.loginEmail,params.loginEmail)
+            def userDetails=[:]
+            userDetails.put("subscriptions", UserDetailsService.totalSubscriptions(session.currentUser))
+            userDetails.put("topics", UserDetailsService.totalTopics(session.currentUser))
+            redirect(url:"/User",model:[userDetails:'userDetails'])
         }
-        else if(u.password==userPassword){
-            redirect(url:"/user")
-        }
-        else{
-            render "wrong password"
-        }
-
+        else redirect(url:'/', model:[message:flash.message])
     }
     def logoutUser(){
         session.invalidate()

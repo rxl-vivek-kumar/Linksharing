@@ -16,7 +16,7 @@
     </style>
 
     <!-- Navigation bar -->
-    <nav class="navbar navbar-light bg-dark">
+    <nav class="navbar navbar-light bg-light">
         <div class="container-fluid bg-body-primary " >
           <a class="navbar-brand" href="#">
              <g:img dir="images" file="logo_linkSharing.png" width="40" height="40"/>LinkShare
@@ -31,50 +31,118 @@
     <!-- Main Content -->
     <div class="container-fluid">
 		<div class="row bg-dark mt-1">
-			<div class="col-md-6">
-				<div class="card mt-4 border-2">
-					<div class="card-header border-2">
-						<h2>Recent Status</h2>
-					</div>
-					<div class="card-body">
-						<div class="scrollable-container">
-							<!-- Add recent status here -->
-                            <ul>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                            </ul>
-						</div>
-					</div>
-				</div>
 
-				<div class="card mt-3 border-2">
-					<div class="card-header border-2">
-						<h2>Top Posts</h2>
-					</div>
-					<div class="card-body">
-						<div class="scrollable-container" style="overflow-y:scroll; max-height:150px">
-							<!-- Add top posts here -->
-                            <ul>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                            </ul>
-						</div>
-					</div>
-				</div>
-			</div>
+          %{--Left column of page--}%
+            <div class="col-md-6">
 
-            <!-- login part -->
+
+               %{--Recent Posts--}%
+                <div class="card mt-4 border-2">
+                    <div class="card-header border-2">
+                    <h2>Recent Posts</h2>
+                    </div>
+                    <div class="card-body bg-light">
+                        <div class="scrollable-container" style="overflow-y:scroll; max-height:270px" controller="Access" action="recentPost">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
+                                </div>
+                                <div class="col-sm-5 mt-2" >
+                                    <a href="">Fetch Recent topic 1 here.</a>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-sm-2">
+                                  <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
+                                </div>
+                                <div class="col-sm-5 mt-2">
+                                    <a href="#">Fetch Trending topic 2 here.</a>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-sm-2">
+                                    <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
+                                </div>
+                                <div class="col-sm-5 mt-2">
+                                    <a href="#">Fetch Trending topic 3 here.</a>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-sm-2">
+                                    <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
+                                </div>
+                                <div class="col-sm-5 mt-2">
+                                     <a href="#">Fetch Trending topic 4 here.</a>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-sm-2">
+                                    <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
+                                </div>
+                                <div class="col-sm-5 mt-2">
+                                    <a href="#">Fetch Trending topic 5 here.</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            %{--Trending posts card--}%
+             <div class="card mt-4 border-2">
+                <div class="card-header border-2">
+                    <h2>Trending Status</h2>
+                </div>
+                <div class="card-body">
+                    <div class="scrollable-container" style="overflow-y:scroll; max-height:270px">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
+                            </div>
+                            <div class="col-sm-5 mt-2">
+                                <a href="#">Fetch Trending topic 1 here.</a>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
+                            </div>
+                            <div class="col-sm-5 mt-2">
+                                <a href="#">Fetch Trending topic 2 here.</a>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
+                            </div>
+                            <div class="col-sm-5 mt-2">
+                                <a href="#">Fetch Trending topic 3 here.</a>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
+                            </div>
+                            <div class="col-sm-5 mt-2">
+                                <a href="#">Fetch Trending topic 4 here.</a>
+                            </div>
+                        </div>
+                        <div class="row mt-1">
+                            <div class="col-sm-2">
+                                <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
+                            </div>
+                            <div class="col-sm-5 mt-2">
+                                <a href="#">Fetch Trending topic 5 here.</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+            </div>
+
+            %{--Right Column of page--}%
             <div class="col-md-6 mt-4">
+
+                %{--User Login Card--}%
 				<div class="card border-2" >
 					<div class="card-header border-2" >
 						<h2>Login</h2>
@@ -82,11 +150,11 @@
 					<div class="card-body" style="background-color: rgba(69, 68, 70, 0.144);">
 						<g:form controller="Access" action="loginUser">
 							<div class="form-group">
-								<label for="email">Email/Username:</label>
+								<label for="loginEmail">Email/Username:</label>
 								<input type="text" class="form-control" id="loginEmail" name="loginEmail" required>
 							</div>
 							<div class="form-group">
-								<label for="password">Password:</label>
+								<label for="loginPassword">Password:</label>
 								<input type="password" class="form-control" id="loginPassword" name="loginPassword" required>
 							</div>
 							<div class="form-group mt-2">
@@ -158,16 +226,6 @@
         </div>
     </div>
 
-    <div id="controllers" role="navigation">
-            <h2>Available Controllers:</h2>
-            <ul>
-                <g:each var="c" in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-                    <li class="controller">
-                        <g:link controller="${c.logicalPropertyName}">${c.fullName}</g:link>
-                    </li>
-                </g:each>
-            </ul>
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
             integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous">
     </script>

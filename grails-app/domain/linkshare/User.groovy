@@ -8,6 +8,7 @@ class User {
     String firstName;
     String lastName;
     byte[] photo;
+    boolean isAdmin;
     Date dateCreated;
     Date lastUpdated;
 
@@ -15,9 +16,13 @@ class User {
                     subscriptions: Subscription,readingItems:ReadingItem]
 
     static constraints = {
+        isAdmin default:false
         email unique:true
         userName unique:true
-        password  blank:false
+        password  blank:false, maxsize:8, minsize:5,validator:{val,obj->
+                  if(val.length()<8) {
+                      return false}
+                   }
         firstName nullable:false
         lastName nullable:true
         photo nullable:true

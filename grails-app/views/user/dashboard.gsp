@@ -1,3 +1,4 @@
+<%@ page import="linkshare.VisibilityEnum" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,11 +13,11 @@
 </head>
 
 <body>
-    <div class="bg-img" height: 100vh;>
+    <div class="bg-img" height="100vh">
 
         <!--Navigation bar-->
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid ">
                 <a class="navbar-brand" href="#">
                     <g:img dir="images" file="logo_linkSharing.png" width="40" height="40"/>
@@ -33,118 +34,117 @@
                     </form>
                     <ul class="navbar-nav ">
 
+                        <g:if test="${session.currentUser}">
+
                         <!-- Create topic Modal -->
-                        <li class="nav-item">
-                            <!-- Button to trigger modal -->
-                            <button type="button" class="btn btn-link chat-icon mt-2" data-bs-toggle="modal"
-                                data-bs-target="#createTopicModal">
-                                <g:img dir="images" file="createTopic.svg" width="30" height="30"/>
-                            </button>
+                            <li class="nav-item">
+                                <!-- Button to trigger modal -->
+                                <button type="button" class="btn btn-link chat-icon mt-2" data-bs-toggle="modal"
+                                        data-bs-target="#createTopicModal">
+                                    <g:img dir="images" file="createTopic.svg" width="30" height="30"/>
+                                </button>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="createTopicModal" tabindex="-1"
-                                aria-labelledby="createTopicModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <!-- modal Header -->
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="createTopicModalLabel">Create Topic</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <!-- Modal Body -->
-                                        <div class="modal-body">
-                                            <form>
-                                                <div class="mb-3">
-                                                    <label for="topicName" class="form-label">Name</label>
-                                                    <input type="text" class="form-control" id="topicName">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="visibility" class="form-label">Visibility</label>
-                                                    <select class="form-select" id="visibility">
-                                                        <option value="public">Public</option>
-                                                        <option value="private">Private</option>
-                                                    </select>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <!-- Modal Footer -->
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Create</button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="createTopicModal" tabindex="-1"
+                                     aria-labelledby="createTopicModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <!-- modal Header -->
+                                            <div class="modal-header" >
+                                                <h5 class="modal-title" id="createTopicModalLabel">Create Topic</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <!-- Modal Body -->
+                                            <div class="modal-body">
+                                                <g:form controller="DashboardAccess" action="createTopic">
+                                                    <div class="form-group mb-3">
+                                                        <label >Name:</label>
+                                                        <input type="text" class="form-control" name="name">
+                                                    </div>
+                                                    <div class="form-group mb-3">
+                                                        <label >Visibility:</label>
+                                                        <g:select name="visibility" from="${VisibilityEnum.values()}" optionKey="key" />
+                                                    </div>
+                                                    <div class="form-group modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                        <g:submitButton  name="Create" class="btn btn-primary" >Create</g:submitButton>
+                                                    </div>
+                                                </g:form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
+                            <!-- Send Invitation Modal -->
+                            <li class="nav-item">
+                                <!-- Button to trigger modal -->
+                                <button type="button" class="btn btn-link chat-icon mt-2" data-bs-toggle="modal"
+                                        data-bs-target="#sendInvitationModal">
+                                    <g:img dir="images" file="sendInvitation.svg" width="30" height="30"/>
+                                </button>
 
-                        <!-- Send Invitation Modal -->
-                        <li class="nav-item">
-                            <!-- Button to trigger modal -->
-                            <button type="button" class="btn btn-link chat-icon mt-2" data-bs-toggle="modal"
-                                data-bs-target="#sendInvitationModal">
-                                <g:img dir="images" file="sendInvitation.svg" width="30" height="30"/>
-                            </button>
+                                <!-- Modal -->
+                                <div class="modal fade" id="sendInvitationModal" tabindex="-1"
+                                     aria-labelledby="sendInvitationModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="sendInvitationModalLabel">Send Invitation</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                            </div>
+                                            <!-- Modal Body -->
+                                            <div class="modal-body">
+                                                <g:form>
+                                                    <div class="mb-3">
+                                                        <label for="userEmail" class="form-label">Email*:</label>
+                                                        <input type="text" class="form-control" name="userEmail" id="userEmail">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="shareTopic"  class="form-label">Topic*:</label>
+                                                        <select class="form-select" name="invitedForTopic" id="shareTopic">
+                                                            <option><a href="#">Topic1</a></option>
+                                                            <option><a href="#">Topic2</a></option>
+                                                        </select>
+                                                    </div>
+                                                    <!-- Modal Footer -->
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary">Invite</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Cancel</button>
+                                                    </div>
+                                                </g:form>
+                                            </div>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="sendInvitationModal" tabindex="-1"
-                                aria-labelledby="sendInvitationModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <!-- Modal Header -->
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="sendInvitationModalLabel">Send Invitation</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <!-- Modal Body -->
-                                        <div class="modal-body">
-                                            <form>
-                                                <div class="mb-3">
-                                                    <label for="userEmail" class="form-label">Email*:</label>
-                                                    <input type="text" class="form-control" id="userEmail">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="shareTopic" class="form-label">Topic*:</label>
-                                                    <select class="form-select" id="shareTopic">
-                                                        <option><a href="#">Topic1</a></option>
-                                                        <option><a href="#">Topic2</a></option>
-                                                    </select>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <!-- Modal Footer -->
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary">Invite</button>
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Cancel</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <!-- User profile section -->
-                            <div class="userProfilePhoto mt-2">
-                                <label for="userProfilePhoto" class="form-label mt-2">
-                                    <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="30" height="30"/></a>
-                                </label>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="dropdown show">
-                              <a class="btn btn-outline btn-xs mt-2 dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
-                              aria-haspopup="true" aria-expanded="false" style="color:white">
-                                user
-                              </a>
-                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">Profile</a>
-                                <a class="dropdown-item" href="#">...</a>
-                                <a class="dropdown-item" href="/Access/logoutUser">Logout</a>
-                              </div>
-                            </div>
-                        </li>
+                            </li>
+                            <li class="nav-item">
+                                <!-- User profile section -->
+                                <div class="userProfilePhoto mt-2">
+                                    <label for="defaultPhoto" class="form-label mt-2">
+                                        <a href="#"><g:img dir="images" id="defaultPhoto" file="defaultPhoto.svg" width="30" height="30"/></a>
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="dropdown show">
+                                    <a class="btn btn-outline btn-xs mt-2 dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        ${session.currentUser.userName}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" href="#">Profile</a>
+                                        <g:render template="adminOptions"></g:render>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/Access/logoutUser">Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </g:if>
                     </ul>
                 </div>
             </div>
@@ -167,18 +167,22 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="card-body"></div>
-                                        <h5 class="card-title">UserName</h5>
-                                        <p class="card-text">userEmail@example.com</p>
-                                        <p class="card-text"><strong>Subscriptions:</strong> fetchValue</p>
-                                        <p class="card-text"><strong>Topics:</strong> FetchValue</p>
+                                        <h5 class="card-title">${session.currentUser.firstName + session.currentUser.lastName}</h5>
+                                        <p class="card-text">${session.currentUser.userName}</p>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <p class="card-text"><strong>Subscriptions:</strong> ${userDetails.get("totalSubscriptions")}</p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <p class="card-text"><strong>Topics:</strong> ${userDetails.get("totalTopics")}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
 
                 <!-- Subscription details card -->
                 <div class="row">

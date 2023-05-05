@@ -1,6 +1,17 @@
-package Enum
+package linkshare
 
-enum VisibilityEnum {
-    PUBLIC("Public"),
-    PRIVATE("Private")
+public enum VisibilityEnum {
+    Public ("Public"),
+    Private ("Private")
+    String id
+    VisibilityEnum(String id){
+        this.id=id
+    }
+    String toString(){
+        id
+    }
+
+    String getKey(){
+        name()
+    }
 }

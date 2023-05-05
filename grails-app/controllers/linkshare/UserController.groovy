@@ -1,10 +1,14 @@
 package linkshare
 
 class UserController {
-
+//use interceptor here to avoid direct access to dashboard.
     def index() {
-        render(view:'dashboard')
-
+        if(session.currentUser){
+            render(view:'dashboard')
+        }
+        else{
+            redirect(url:'/')
+        }
     }
 
 }
