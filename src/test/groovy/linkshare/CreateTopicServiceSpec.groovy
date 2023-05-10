@@ -3,7 +3,7 @@ package linkshare
 import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
-class RecentPostServiceSpec extends Specification implements ServiceUnitTest<RecentPostService>{
+class CreateTopicServiceSpec extends Specification implements ServiceUnitTest<CreateTopicService>{
 
     def setup() {
     }

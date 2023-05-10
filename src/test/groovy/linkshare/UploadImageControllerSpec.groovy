@@ -1,9 +1,9 @@
 package linkshare
 
-import grails.testing.gorm.DomainUnitTest
+import grails.testing.web.controllers.ControllerUnitTest
 import spock.lang.Specification
 
-class DocumentResourceSpec extends Specification implements DomainUnitTest<DocumentResource> {
+class UploadImageControllerSpec extends Specification implements ControllerUnitTest<UploadImageController> {
 
     def setup() {
     }

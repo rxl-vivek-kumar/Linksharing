@@ -1,13 +1,22 @@
 package linkshare
 
 class UserController {
-//use interceptor here to avoid direct access to dashboard.
+    def UserTopicsAndSubscriptionsService
+    def RecentSharesService
+    def UserSubscriptionDetailsService
+
     def index() {
+        def recentShares=RecentSharesService.serviceMethod()
         if(session.currentUser){
-            render(view:'dashboard')
+            def userTopicsAndSubscriptionsDetails = UserTopicsAndSubscriptionsService.totalTopicsAndSubscriptions(session.currentUser)
+            def subscriptionDetails=UserSubscriptionDetailsService.subscriptions(session.currentUser)
+            render(view:'/user/dashboard', model:[userDetails:userTopicsAndSubscriptionsDetails, subscriptionDetails:subscriptionDetails])
+
         }
         else{
-            redirect(url:'/')
+
+            render (view:'index',model:[recentShares:recentShares])
+
         }
     }
 

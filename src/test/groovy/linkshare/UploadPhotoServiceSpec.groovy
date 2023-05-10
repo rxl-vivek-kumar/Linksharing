@@ -3,7 +3,7 @@ package linkshare
 import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
-class UserDetailsServiceSpec extends Specification implements ServiceUnitTest<UserDetailsService>{
+class UploadPhotoServiceSpec extends Specification implements ServiceUnitTest<UploadPhotoService>{
 
     def setup() {
     }

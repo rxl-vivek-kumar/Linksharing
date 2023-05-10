@@ -1,11 +1,7 @@
 package linkshare
 
 class LinkResource extends Resource{
-    String url;
-
+    String url
     static constraints = {
-    }
-    static mapping = {
-        table 'LinkResource'
     }
 }
