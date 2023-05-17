@@ -105,6 +105,24 @@ class BootStrap {
         s4.seriousness= SeriousnessEnum.CASUAL
         s4.save(flush:true,failOnError:true)
 
+        Subscription s5=new Subscription()
+        s5.user=u1
+        s5.topic=t
+        s5.seriousness= SeriousnessEnum.CASUAL
+        s5.save(flush:true,failOnError:true)
+
+        Subscription s6=new Subscription()
+        s6.user=u3
+        s6.topic=t2
+        s6.seriousness= SeriousnessEnum.CASUAL
+        s6.save(flush:true,failOnError:true)
+
+        Subscription s7=new Subscription()
+        s7.user=u1
+        s7.topic=t3
+        s7.seriousness= SeriousnessEnum.CASUAL
+        s7.save(flush:true,failOnError:true)
+
 
         LinkResource lr1=new LinkResource()
         lr1.url="https://timesofindia.indiatimes.com/coronavirus"
@@ -127,6 +145,7 @@ class BootStrap {
         lr3.topic=t1
         lr3.save(flush:true,failOnError:true)
 
+
         LinkResource lr4=new LinkResource()
         lr4.url="https://www.forbes.com/sites/robtoews/2020/10/12/the-next-generation-of-artificial-intelligence/"
         lr4.createdBy=u
@@ -141,6 +160,34 @@ class BootStrap {
         lr5.topic=t
         lr5.save(flush:true,failOnError:true)
 
+        def resource=Resource.getAll()
+        resource.each {res->
+            def subscriber=Subscription.findAllByTopic(res.topic).user
+            subscriber.each {it->
+                if(it.id==res.createdBy.id){
+                    def read=new ReadingItem(user: it,resource: res,isRead: true)
+                    read.save(flush:true,failOnError:true)
+                }else{
+                    def read=new ReadingItem(user: it,resource: res)
+                    read.save(flush:true,failOnError:true)
+                }
+            }
+        }
+
+        ResourceRating rr1=new ResourceRating(score:3,resource: lr5,user: u)
+        rr1.save(flush:true,failOnError:true)
+        ResourceRating rr2=new ResourceRating(score:4,resource: lr3,user: u2)
+        rr2.save(flush:true,failOnError:true)
+        ResourceRating rr3=new ResourceRating(score:2,resource: lr1,user: u3)
+        rr3.save(flush:true,failOnError:true)
+        ResourceRating rr4=new ResourceRating(score:3,resource: lr2,user: u1)
+        rr4.save(flush:true,failOnError:true)
+        ResourceRating rr5=new ResourceRating(score:1,resource: lr5,user: u4)
+        rr5.save(flush:true,failOnError:true)
+        ResourceRating rr6=new ResourceRating(score:5,resource: lr2,user: u)
+        rr6.save(flush:true,failOnError:true)
+        ResourceRating rr7=new ResourceRating(score:4,resource: lr3,user: u2)
+        rr7.save(flush:true,failOnError:true)
     }
     def destroy = {
     }

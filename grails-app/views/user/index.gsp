@@ -9,6 +9,7 @@
 
 </head>
 <body>
+
 <style>
 .custom-row {
     height: 100vh;
@@ -27,7 +28,16 @@
         </form>
     </div>
 </nav>
-
+<g:if test="${flash.message}">
+    <div class="alert alert-success alert-dismissible fade show " role="alert">${flash.message}
+        <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</g:if>
+<g:if test="${flash.error}">
+    <div class="alert alert-danger alert-dismissible fade show " role="alert">${flash.error}
+        <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</g:if>
 <!-- Main Content -->
 <div class="container-fluid">
     <div class="row bg-dark mt-1">
@@ -46,10 +56,10 @@
                         <div class="row">
                             <g:each in="${recentShares}" var="resource">
                                 <div class="col-sm-2 mt-1">
-                                    <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
+                                    <a href="#"><g:img dir="images" file="${resource.createdBy.photo}" width="60"/></a>
                                 </div>
                                 <div class="col-sm-10 mt-3" >
-                                    <a href="${resource.url}" target="_blank">${resource.description}</a>
+                                    <a href="#" target="_blank">${resource.description}</a>
                                 </div>
                             </g:each>
                         </div>
@@ -64,46 +74,16 @@
                 </div>
                 <div class="card-body">
                     <div class="scrollable-container" style="overflow-y:scroll; max-height:270px">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
+                        <g:each in="${topPosts}" var="top">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <a href="#"><g:img dir="images" file="${top.resource.createdBy.photo}" width="60"/></a>
+                                </div>
+                                <div class="col-sm-5 mt-2">
+                                    <a href="#">${top.resource.description}</a>
+                                </div>
                             </div>
-                            <div class="col-sm-5 mt-2">
-                                <a href="#">Fetch Trending topic 1 here.</a>
-                            </div>
-                        </div>
-                        <div class="row mt-1">
-                            <div class="col-sm-2">
-                                <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
-                            </div>
-                            <div class="col-sm-5 mt-2">
-                                <a href="#">Fetch Trending topic 2 here.</a>
-                            </div>
-                        </div>
-                        <div class="row mt-1">
-                            <div class="col-sm-2">
-                                <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
-                            </div>
-                            <div class="col-sm-5 mt-2">
-                                <a href="#">Fetch Trending topic 3 here.</a>
-                            </div>
-                        </div>
-                        <div class="row mt-1">
-                            <div class="col-sm-2">
-                                <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
-                            </div>
-                            <div class="col-sm-5 mt-2">
-                                <a href="#">Fetch Trending topic 4 here.</a>
-                            </div>
-                        </div>
-                        <div class="row mt-1">
-                            <div class="col-sm-2">
-                                <a href="#"><g:img dir="images" file="defaultPhoto.svg" width="60"/></a>
-                            </div>
-                            <div class="col-sm-5 mt-2">
-                                <a href="#">Fetch Trending topic 5 here.</a>
-                            </div>
-                        </div>
+                        </g:each>
                     </div>
                 </div>
             </div>
@@ -128,34 +108,34 @@
                             <input type="password" class="form-control" id="loginPassword" name="loginPassword" required>
                         </div>
                         <div class="form-group mt-2">
-                            <a data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</a>
+                            <a data-bs-toggle="modal" data-bs-target="">Forgot Password?</a>
                             <button type="submit" id="login" name="login" class="btn btn-primary offset-4 mt-2">Login</button>
                         </div>
                     </g:form>
-                        <div class="modal fade" id="forgotPasswordModal" tabindex="-1"
-                             aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
-                            <div class="modal-dialog mt-2">
-                                <div class="modal-content mt-2">
-                                    <!-- Modal Header -->
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="forgotPasswordModalLabel">Reset Password</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                    </div>
-                                    <g:form>
-                                        <div class="form-group mt-2">
-                                            <label >Email address:</label>
-                                            <input type="email" class="form-control"  name="email" aria-describedby="emailHelp" placeholder="Enter email">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="newPassword">New Password:</label>
-                                            <input type="password" class="form-control" id="newPassword" name="password" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary mt-2" name="submit">Submit</button>
-                                    </g:form>
-                                </div>
-                            </div>
-                        </div>
+%{--                        <div class="modal fade" id="forgotPasswordModal" tabindex="-1"--}%
+%{--                             aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">--}%
+%{--                            <div class="modal-dialog mt-2">--}%
+%{--                                <div class="modal-content mt-2">--}%
+%{--                                    <!-- Modal Header -->--}%
+%{--                                    <div class="modal-header">--}%
+%{--                                        <h5 class="modal-title" id="forgotPasswordModalLabel">Reset Password</h5>--}%
+%{--                                        <button type="button" class="btn-close" data-bs-dismiss="modal"--}%
+%{--                                                aria-label="Close"></button>--}%
+%{--                                    </div>--}%
+%{--                                    <g:form id="forgotPasswordForm">--}%
+%{--                                        <div class="form-group mt-2">--}%
+%{--                                            <label >Email address:</label>--}%
+%{--                                            <input type="email" class="form-control"  id="forgotPasswordEmail" name="email" aria-describedby="emailHelp" placeholder="Enter email">--}%
+%{--                                        </div>--}%
+%{--                                        <div class="form-group">--}%
+%{--                                            <label for="newPassword">New Password:</label>--}%
+%{--                                            <input type="password" class="form-control" id="newPassword" name="password" required>--}%
+%{--                                        </div>--}%
+%{--                                        <button type="submit" class="btn btn-primary mt-2" onclick="forgotPassword()" name="submit">Submit</button>--}%
+%{--                                    </g:form>--}%
+%{--                                </div>--}%
+%{--                            </div>--}%
+%{--                        </div>--}%
                 </div>
             </div>
 
@@ -169,37 +149,37 @@
                         <div class="row mb-3">
                             <div class="col-sm-4">First Name*</div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="firstName" id="firstName" aria-label="First name">
+                                <input type="text" class="form-control" name="firstName" id="firstName" aria-label="First name" required>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-4">Last Name*</div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="lastName" id="lastName" aria-label="Last name">
+                                <input type="text" class="form-control" name="lastName" id="lastName" aria-label="Last name" required>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-4">Email*</div>
                             <div class="col-sm-7">
-                                <input type="email"  name="email" class="form-control" id="email" >
+                                <input type="email"  name="email" class="form-control" id="email" required>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-4">Username*</div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="userName" id="userName" aria-label="userName">
+                                <input type="text" class="form-control" name="userName" id="userName" aria-label="userName" required>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-4">Password*</div>
                             <div class="col-sm-7">
-                                <input type="password" class="form-control" name="password" id="password">
+                                <input type="password" class="form-control" name="password" id="password" required>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-4">Confirm Password*</div>
                             <div class="col-sm-7">
-                                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword">
+                                <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" required>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -226,5 +206,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
         integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous">
 </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<asset:javascript src="dashboard.js"></asset:javascript>
 </body>
 </html>

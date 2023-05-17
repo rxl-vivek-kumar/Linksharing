@@ -8,6 +8,7 @@ class User {
     String lastName
     String photo="defaultPhoto.svg"
     boolean isAdmin
+    boolean isActive=true
     Date dateCreated
     Date lastUpdated
 
@@ -16,6 +17,7 @@ class User {
 
     static constraints = {
         isAdmin default:false
+        isActive default:true
         email unique:true
         userName unique:true
         password  blank:false, maxsize:8, minsize:5,validator:{val,obj->

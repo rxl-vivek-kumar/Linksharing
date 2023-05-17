@@ -1,0 +1,18 @@
+package linkshare
+
+import grails.testing.services.ServiceUnitTest
+import spock.lang.Specification
+
+class ShareDocumentServiceSpec extends Specification implements ServiceUnitTest<ShareDocumentService>{
+
+    def setup() {
+    }
+
+    def cleanup() {
+    }
+
+    void "test something"() {
+        expect:"fix me"
+            true == false
+    }
+}

@@ -14,7 +14,6 @@ class LoginUserService {
             out="User doesn't exist"
         }
         else if(u.password==userPassword){
-
         }
         else{
             out="Wrong Password"

@@ -3,6 +3,7 @@ package linkshare
 
 class DashboardAccessController {
     def CreateTopicService
+    def UserInboxService
     def index() { }
     def createTopic(){
         CreateTopicService.createTopic(params,session.currentUser)
@@ -11,4 +12,10 @@ class DashboardAccessController {
 //        else render "you have already created this topic before "
 
     }
+
+    def userInbox(){
+        def unread=UserInboxService.unReadResource(session.currentUser.userName)
+
+    }
+
 }

@@ -8,12 +8,14 @@ class UserTopicsAndSubscriptionsService {
     def serviceMethod() {
 
     }
-    def totalTopicsAndSubscriptions(def u){
+    def totalTopicsAndSubscriptions(User u){
         Integer subscriptionCount=Subscription.countByUser(u)
         Integer topicCount=Topic.countByCreatedBy(u)
+        def subscribedTopics = Subscription.findAllByUser(u)*.topic.name
         def userDetails=[:]
-        userDetails.put("subscriptions", subscriptionCount)
-        userDetails.put("topics", topicCount)
+        userDetails.put("subscriptionCount", subscriptionCount)
+        userDetails.put("topicCount", topicCount)
+        userDetails.put("subscribedTopics", subscribedTopics)
         return userDetails
     }
 

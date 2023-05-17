@@ -1,6 +1,6 @@
 package linkshare
 
-class Resource {
+abstract class Resource {
     String description
     Date dateCreated
     Date lastUpdated
