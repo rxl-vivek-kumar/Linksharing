@@ -3,8 +3,8 @@ package linkshare
 import grails.converters.JSON
 
 class EditSubscribedTopicController {
-
     def index() {
+        if(!session.currentUser){redirect(url:'/User')}
             def topic = Topic.get(params.id)
             if (topic) {
                 topic.name = params.name
@@ -18,6 +18,7 @@ class EditSubscribedTopicController {
             }
     }
     def deleteTopic(){
+        if(!session.currentUser){redirect(url:'/User')}
         def topic = Topic.get(params.topicId as Long)
         if (topic) {
                 topic.delete(flush: true, failOnError: true)
@@ -28,6 +29,7 @@ class EditSubscribedTopicController {
     }
 
    def editVisibility(){
+       if(!session.currentUser){redirect(url:'/User')}
        def topic=Topic.get(params.topicId as long)
        if(topic){
            topic.visibility=params.visibility
@@ -38,6 +40,7 @@ class EditSubscribedTopicController {
        }
    }
     def editSeriousness(){
+        if(!session.currentUser){redirect(url:'/User')}
         def subscription=Subscription.get(params.subscriptionId as long)
         if(subscription){
             subscription.seriousness=params.seriousness
@@ -49,6 +52,7 @@ class EditSubscribedTopicController {
 
     }
     def editTopicSeriousness(){
+        if(!session.currentUser){redirect(url:'/User')}
         def topic=Topic.get(params.topicId as Long)
         def user=User.get(params.userId as Long)
         def subscription=Subscription.findByTopicAndUser(topic,user)

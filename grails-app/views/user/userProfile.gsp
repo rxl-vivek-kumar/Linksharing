@@ -13,7 +13,7 @@
     <asset:javascript src="dashboard.js"></asset:javascript>
 </head>
 <body class="bg-secondary">
-<g:render template="navbar" />
+<g:render template="/user/navbar" />
 
 <!-- Main Body -->
 <div class="container-fluid">
@@ -36,13 +36,13 @@
                                     <p class="card-text text-muted">@${thisUser.userName}</p>
                                     <div class="row">
                                         <div class="col-sm-5">
-                                            <a href="#">Subscriptions:</a>
+                                            <p>Subscriptions:</p>
                                         </div>
                                         <div class="col">
                                             <p class="card-text font-weight-bold">${userDetails["subscriptionCount"]}</p>
                                         </div>
                                         <div class="col-sm-4">
-                                           <p><a href="#">Topics: </a></p>
+                                           <p>Topics:</p>
                                         </div>
                                         <div class="col">
                                             <p class="card-text font-weight-bold">${userDetails["topicCount"]}</p>
@@ -82,13 +82,13 @@
                                             <p><span><a href="/User/userProfile?user=${subsData.createdBy.id}">@${subsData.createdBy.userName}</a></span></p>
                                             <div class="row">
                                                 <div class="col">
-                                                    <p class="card-text"><a href="#">Subscriptions:</a></p>
+                                                    <p class="card-text">Subscriptions:</p>
                                                 </div>
                                                 <div class="col">
                                                     <p class="card-text font-weight-bold">${subsData.topicCount}</p>
                                                 </div>
                                                 <div class="col">
-                                                    <p class="card-text"><a href="#">Post:</a></p>
+                                                    <p class="card-text">Post:</p>
                                                 </div>
                                                 <div class="col">
                                                     <p class="card-text font-weight-bold">${subsData.topicResourceCount}</p>
@@ -108,16 +108,14 @@
                                     </div>
 
                                     <div class="row border-bottom">
-                                        <div class="col-sm-3">
-                                            <div class="dropdown" style="max-width:120px">
-
-                                                <g:select class="form-select" id="seriousness_${subsData.subscription.id}" name="seriousness_${subsData.subscription.id}" value="${subsData.subscription.seriousness}" aria-label="Select seriousness"
-                                                          from="${linkshare.SeriousnessEnum.values()}" optionKey="key" onclick="editSeriousness('${subsData.subscription.id}')">
-                                                </g:select>
-
-                                            </div>
-                                        </div>
                                         <g:if test="${session.currentUser.id==subsData.topic.createdBy.id || session.currentUser.isAdmin==true}">
+                                            <div class="col-sm-3">
+                                                <div class="dropdown" style="max-width:120px">
+                                                    <g:select class="form-select" id="seriousness_${subsData.subscription.id}" name="seriousness_${subsData.subscription.id}" value="${subsData.subscription.seriousness}" aria-label="Select seriousness"
+                                                              from="${linkshare.SeriousnessEnum.values()}" optionKey="key" onclick="editSeriousness('${subsData.subscription.id}')">
+                                                    </g:select>
+                                                </div>
+                                            </div>
                                             <div class="col-sm-3">
                                                 <div class="dropdown" style="max-width:120px">
                                                     <g:select class="form-select" id="visibility_${subsData.topic.id}" name="visibility_${subsData.topic.id}" value="${subsData.topic.visibility}" aria-label="Select visibility"
@@ -127,9 +125,10 @@
                                             </div>
                                         </g:if>
                                         <div class="col-sm-1">
-                                            <button type="button" class="btn btn-link chat-icon" onclick="">
+                                            <button type="button" class="btn btn-link chat-icon" data-bs-toggle="modal" data-bs-target="#sendInvitationModal_${subsData.topic.id}">
                                                 <g:img dir="images" file="sendInvitation.svg" width="30" height="30"/>
                                             </button>
+                                            <g:render template="/user/sendInvitationModal" model="[subsData:subsData]"></g:render>
                                         </div>
                                         <g:if test="${session.currentUser.id==subsData.topic.createdBy.id || session.currentUser.isAdmin==true}">
                                             <div class="col-sm-1">
@@ -179,13 +178,13 @@
                                                 <p><span><a href="/User/userProfile?user=${topicData.createdBy.id}">@${topicData.createdBy.userName}</a></span></p>
                                                 <div class="row">
                                                     <div class="col">
-                                                        <p class="card-text"><a href="#">Subscriptions:</a></p>
+                                                        <p class="card-text">Subscriptions:</p>
                                                     </div>
                                                     <div class="col">
                                                         <p class="card-text font-weight-bold">${topicData.subscriptionCount}</p>
                                                     </div>
                                                     <div class="col">
-                                                        <p class="card-text"><a href="#">Post:</a></p>
+                                                        <p class="card-text">Post:</p>
                                                     </div>
                                                     <div class="col">
                                                         <p class="card-text font-weight-bold">${topicData.resourceCount}</p>
@@ -224,9 +223,10 @@
                                                 </div>
                                             </g:if>
                                             <div class="col-sm-1">
-                                                <button type="button" class="btn btn-link chat-icon" >
+                                                <button type="button" class="btn btn-link chat-icon" data-bs-toggle="modal" data-bs-target="#sendInvitationModal_${topicData.topic.id}">
                                                     <g:img dir="images" file="sendInvitation.svg" width="30" height="30"/>
                                                 </button>
+                                                <g:render template="/user/sendInvitationModal" model="[subsData:topicData]"></g:render>
                                             </div>
                                             <g:if test="${session.currentUser.id==topicData.createdBy.id || session.currentUser.isAdmin==true}">
                                                 <div class="col-sm-1">
@@ -269,9 +269,8 @@
 
                             </div>
                             <div class="col-sm-10 offset-5">
-                                <g:if test="${post.instanceOf(linkshare.LinkResource)}"><a href="${post.url}" style="font-size: small; margin-left:2ch">View Full Site</a></g:if>
+                                <g:if test="${post.instanceOf(linkshare.LinkResource)}"><a href="${post.url}" style="font-size: small; margin-left:2ch" target="_blank">View Full Site</a></g:if>
                                 <g:else><a href="${post.filePath}" style="font-size:small">Download</a></g:else>
-                                <a href="#" style="font-size: small; margin-left:2ch">Mark As Read</a>
                                 <a href="/ShowPost/index?resourceId=${post.id}" style="font-size: small; margin-left:2ch">View Post</a>
                             </div>
                             <span class="border border-secondary"></span>
@@ -282,8 +281,6 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
+
 </body>
 </html>

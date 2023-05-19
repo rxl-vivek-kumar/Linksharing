@@ -11,8 +11,6 @@ class UserController {
     def UpdateUserProfileService
     def TopPostsService
 
-
-
     def index() {
         def recentShares = RecentSharesService.serviceMethod()
         def topPosts=TopPostsService.serviceMethod()

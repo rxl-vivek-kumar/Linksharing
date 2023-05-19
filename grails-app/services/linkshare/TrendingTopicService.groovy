@@ -20,12 +20,12 @@ class TrendingTopicService {
             maxResults(5)
         }
         def trendingTopics=[]
-        topics.each{top->
+        topics?.each{top->
             def topic=Topic.get(top[0])
             def resourceCount=top[1]
             def subsCount=top[2]
             def eachTopicDetail=[topic:topic,postCount:resourceCount,subscriptionCount:subsCount]
-            trendingTopics.add(eachTopicDetail)
+            trendingTopics?.add(eachTopicDetail)
         }
         return trendingTopics
     }

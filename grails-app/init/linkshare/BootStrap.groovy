@@ -13,7 +13,7 @@ class BootStrap {
         u.isAdmin=true
         u.photo="profilePhoto/VivekRay.jpg"
         u.save(flush:true,failOnError:true)
-        
+
         User u1=new User()
         u1.firstName="Robert"
         u1.lastName="Pattinson"
@@ -22,7 +22,7 @@ class BootStrap {
         u1.password=12345678
         u1.photo="profilePhoto/Batman.jpeg"
         u1.save(flush:true,failOnError:true)
-        
+
         User u2=new User()
         u2.firstName="Robert"
         u2.lastName="Downey Junior"
@@ -31,7 +31,7 @@ class BootStrap {
         u2.password=12345678
         u2.photo="profilePhoto/Ironman.png"
         u2.save(flush:true,failOnError:true)
-        
+
         User u3=new User()
         u3.firstName="Dwayne"
         u3.lastName="Jhonson"
@@ -40,7 +40,7 @@ class BootStrap {
         u3.password=12345678
         u3.photo="profilePhoto/BlackAdam.jpeg"
         u3.save(flush:true,failOnError:true)
-        
+
         User u4=new User()
         u4.firstName="Henry"
         u4.lastName="Cavill"

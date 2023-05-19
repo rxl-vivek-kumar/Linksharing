@@ -6,28 +6,15 @@
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-
+    <style>
+    .custom-row {
+        height: 100vh;
+    }
+    </style>
 </head>
 <body>
-
-<style>
-.custom-row {
-    height: 100vh;
-}
-</style>
-
 <!-- Navigation bar -->
-<nav class="navbar navbar-light bg-light">
-    <div class="container-fluid bg-body-primary " >
-        <a class="navbar-brand" href="#">
-            <g:img dir="images" file="logo_linkSharing.png" width="40" height="40"/>LinkShare
-        </a>
-        <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
+<g:render template="/user/navbar"></g:render>
 <g:if test="${flash.message}">
     <div class="alert alert-success alert-dismissible fade show " role="alert">${flash.message}
         <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -38,14 +25,12 @@
         <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 </g:if>
-<!-- Main Content -->
+
 <div class="container-fluid">
     <div class="row bg-dark mt-1">
 
         %{--Left column of page--}%
-        <div class="col-md-6">
-
-
+        <div class="col-md-7">
             %{--Recent Shares--}%
             <div class="card mt-4 border-2">
                 <div class="card-header border-2">
@@ -55,11 +40,25 @@
                     <div class="scrollable-container" style="overflow-y:scroll; max-height:270px" >
                         <div class="row">
                             <g:each in="${recentShares}" var="resource">
-                                <div class="col-sm-2 mt-1">
-                                    <a href="#"><g:img dir="images" file="${resource.createdBy.photo}" width="60"/></a>
-                                </div>
-                                <div class="col-sm-10 mt-3" >
-                                    <a href="#" target="_blank">${resource.description}</a>
+                                <div class="row">
+                                    <div class="col-sm-2 mt-2">
+                                        <a href="#"><g:img dir="images" file="${resource.createdBy.photo}" width="80" height="80"/></a>
+                                    </div>
+                                    <div class="col-sm-10 mt-3" >
+                                        <div class="row">
+                                            <div class="col-sm-3 ml-0">${resource.createdBy.firstName+"."+resource.createdBy.lastName}</div>
+                                            <div class="col-sm-3 ml-0">@${resource.createdBy.userName}</div>
+                                            <div class="col-sm-6"><a href="/TopicShow/topicShow1?topicId=${resource.topic.id}">${resource.topic.name}</a></div>
+                                        </div>
+                                        <div class="row">${resource.description}</div>
+                                        <div class="row">
+                                            <div class="col-sm-9"></div>
+                                            <div class="col-sm-3">
+                                                <a href="/ShowPost/showPost1?resourceId=${resource.id}" style="font-size: small; margin-left:2ch">View Post</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="border border-secondary mt-1"></span>
                                 </div>
                             </g:each>
                         </div>
@@ -76,12 +75,24 @@
                     <div class="scrollable-container" style="overflow-y:scroll; max-height:270px">
                         <g:each in="${topPosts}" var="top">
                             <div class="row">
-                                <div class="col-sm-2">
-                                    <a href="#"><g:img dir="images" file="${top.resource.createdBy.photo}" width="60"/></a>
+                                <div class="col-sm-2 mt-2">
+                                    <a href="#"><g:img dir="images" file="${top.resource.createdBy.photo}" width="80" height="80"/></a>
                                 </div>
-                                <div class="col-sm-5 mt-2">
-                                    <a href="#">${top.resource.description}</a>
+                                <div class="col-sm-10 mt-3" >
+                                    <div class="row">
+                                        <div class="col-sm-3 ml-0">${top.resource.createdBy.firstName+"."+top.resource.createdBy.lastName}</div>
+                                        <div class="col-sm-3 ml-0">@${top.resource.createdBy.userName}</div>
+                                        <div class="col-sm-6"><a href="/TopicShow/topicShow1?topicId=${top.resource.topic.id}">${top.resource.topic.name}</a></div>
+                                    </div>
+                                    <div class="row">${top.resource.description}</div>
+                                    <div class="row">
+                                        <div class="col-sm-9"></div>
+                                        <div class="col-sm-3">
+                                            <a href="/ShowPost/showPost1?resourceId=${top.resource.id}" style="font-size: small; margin-left:2ch">View Post</a>
+                                        </div>
+                                    </div>
                                 </div>
+                                <span class="border border-secondary mt-1"></span>
                             </div>
                         </g:each>
                     </div>
@@ -90,7 +101,7 @@
         </div>
 
         %{--Right Column of page--}%
-        <div class="col-md-6 mt-4">
+        <div class="col-md-5 mt-4">
 
             %{--User Login Card--}%
             <div class="card border-2" >
@@ -173,7 +184,7 @@
                         <div class="row mb-3">
                             <div class="col-sm-4">Password*</div>
                             <div class="col-sm-7">
-                                <input type="password" class="form-control" name="password" id="password" required>
+                                <input type="password" class="form-control" name="password" id="password" placeholder="between 5 to 8 Character" required>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -185,7 +196,7 @@
                         <div class="row mb-3">
                             <div class="col-sm-4">Photo</div>
                             <div class="col-sm-7">
-                                <input type="file" id="" name="photo" />
+                                <input type="file" name="photo" />
                             </div>
                         </div>
                         <div class="row">

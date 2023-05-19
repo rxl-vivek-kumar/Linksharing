@@ -1,10 +1,6 @@
-<!-- Button to trigger modal -->
-<button type="button" class="btn btn-link chat-icon mt-2" data-bs-toggle="modal"
-        data-bs-target="#sendInvitationModal">
-    <g:img dir="images" file="sendInvitation.svg" width="30" height="30"/>
-</button>
+
 <!-- Modal -->
-<div class="modal fade" id="sendInvitationModal" tabindex="-1"
+<div class="modal fade" id="sendInvitationModal_${subsData.topic.id}" tabindex="-1"
      aria-labelledby="sendInvitationModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -16,21 +12,19 @@
             </div>
             <!-- Modal Body -->
             <div class="modal-body">
-                <g:form>
+                <g:form controller="DashboardAccess" action="sendInvitation">
                     <div class="mb-3">
-                        <label for="userEmail" class="form-label">Email*:</label>
-                        <input type="text" class="form-control" name="userEmail" id="userEmail">
+                        <label for="inviteEmail" class="form-label">Email*:</label>
+                        <input type="text" class="form-control" name="inviteEmail" id="inviteEmail">
                     </div>
-                    <div class="mb-3">
-                        <label for="shareTopic"  class="form-label">Topic*:</label>
-                        <select class="form-select" name="invitedForTopic" id="shareTopic">
-                            <option><a href="#">Topic1</a></option>
-                            <option><a href="#">Topic2</a></option>
-                        </select>
+                    <div class="form-group">
+                        <label >Topic*</label>
+                        <input type="text" name="inviteToTopic" id="inviteToTopic" value="${subsData.topic.name}"  required="true" class="form-control" disabled="true"/>
+                        <input type="text" name="inviteToTopic" id="inviteToTopicHidden" value="${subsData.topic.id}"  required="true" class="form-control" hidden="true"/>
                     </div>
                     <!-- Modal Footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Invite</button>
+                        <g:submitButton name="Invite" class="btn btn-primary">Invite</g:submitButton>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </g:form>

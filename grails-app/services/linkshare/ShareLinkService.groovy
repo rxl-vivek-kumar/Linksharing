@@ -6,7 +6,7 @@ import grails.gorm.transactions.Transactional
 class ShareLinkService {
 
     def serviceMethod(params,user) {
-        Topic topic = Topic.findByName(params.shareLinkTopic)
+        Topic topic = Topic.get(params.shareLinkTopic)
         Resource r = new LinkResource(description:params.shareLinkDescription, createdBy: user, topic: topic,
                 url: params.shareLinkUrl)
         r.validate()

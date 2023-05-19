@@ -8,6 +8,7 @@ class ReadingItemController {
     def index(Integer max) {
     }
     def markAsRead(){
+        if(!session.currentUser){redirect(url:'/User')}
         def resource=Resource.findById(params.resourceId as Long)
         def user=session.currentUser
         if(ReadItemService.serviceMethod(user,resource)){

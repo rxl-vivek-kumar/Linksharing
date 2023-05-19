@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile
 class ShareDocumentService {
 
     def serviceMethod(params,user) {
-        Topic topic = Topic.findByName(params.documentTopic)
+        Topic topic = Topic.get(params.documentTopic as Long)
         Resource r = new DocumentResource(description: params.documentDescription,
                 createdBy: user, topic: topic)
         def multipartFile=params.document

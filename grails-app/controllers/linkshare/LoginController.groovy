@@ -7,7 +7,6 @@ class LoginController {
     }
     def loginUser(){
 
-
         String userEmail=params.loginEmail
         String userPassword=params.loginPassword
         User u = User.findByEmailOrUserName(userEmail,userEmail);

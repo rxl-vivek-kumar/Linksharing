@@ -21,6 +21,29 @@ function forgotPassword(){
     });
 }
 
+function sendInvitation(){
+    $(document).ready(function(){
+        var email=$('input[id="#inviteEmail"]').val()
+        var topic=$('input[id="#inviteToTopic"]').val()
+
+        $.ajax({
+            url: '/DashboardAccess/sendInvitation',
+            type: 'POST',
+            data: {
+                email: email,
+                topic: topic
+            },
+            success: function(response) {
+                alert('Invitation sent successfully!');
+                // $('#sendInvitationModal').css('display', 'none');
+            },
+            error: function(xhr, status, error) {
+                alert('Failed to send invitation. Please try again.');
+            }
+        });
+    });
+}
+
 // SUBSCRIBED TOPIC SECTION
 function editTopicName(topicId) {
     $(document).ready(function () {
@@ -294,7 +317,6 @@ function editUserTopicSeriousness(subscriptionId){
 
 function markAsRead(resourceId) {
     $(document).ready(function() {
-        console.log(resourceId)
         $.ajax({
             url: '/ReadingItem/markAsRead',
             type: 'POST',

@@ -10,6 +10,7 @@ class SubscriptionController {
     }
 
     def subscribeTopic(){
+        if(!session.currentUser){redirect(url:'/User')}
         def topicId=params.topicId as Long
         def userId=params.userId as Long
         def seriousness=params.seriousness
@@ -22,6 +23,7 @@ class SubscriptionController {
     }
 
     def unsubscribeTopic(){
+        if(!session.currentUser){redirect(url:'/User')}
         def topicId=params.topicId as Long
         def userId=params.userId as Long
         if(SubscribeUnsubscribeService.unsubscribe(topicId,userId)){

@@ -6,7 +6,7 @@ class User {
     String password
     String firstName
     String lastName
-    String photo="defaultPhoto.svg"
+    String photo
     boolean isAdmin
     boolean isActive=true
     Date dateCreated
@@ -22,10 +22,11 @@ class User {
         userName unique:true
         password  blank:false, maxsize:8, minsize:5,validator:{val,obj->
             if(val.length()<8) {
-                return false}
+                return 'validation.passwordLength'}
         }
         firstName nullable:false
         lastName nullable:false
+        photo nullable:true
     }
     static mapping = {
         table 'User_Table'

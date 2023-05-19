@@ -1,7 +1,5 @@
 package linkshare
 
-import org.springframework.web.multipart.MultipartFile
-
 class AccessController {
     def LoginUserService
     def RegisterUserService

@@ -1,4 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="linkshare.DocumentResource; javax.print.Doc; linkshare.SeriousnessEnum; linkshare.VisibilityEnum; linkshare.Subscription; linkshare.Resource; linkshare.LinkResource;linkshare.DocumentResource" %>
+<%@ taglib prefix="paginate" uri="http://www.grails.org/tags/paginate" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,9 +10,8 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-
 </head>
 <body>
 <div class="bg-img" height="100vh">
@@ -25,13 +26,14 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse offset-4" id="navbarNav">
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-                <ul class="navbar-nav ">
+                    <g:form class="d-flex" role="search" controller="DashboardAccess" action="searchTopic">
+                        <input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search" required>
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </g:form>
+                <g:if test="${session.currentUser}">
+                    <ul class="navbar-nav ">
 
-                    <!-- Create topic Modal -->
+                        <!-- Create topic Modal -->
                         <li class="nav-item">
                             <!-- Button to trigger modal -->
                             <button type="button" class="btn btn-link chat-icon mt-2" data-bs-toggle="modal"
@@ -92,18 +94,18 @@
                                         </div>
                                         <!-- Modal Body -->
                                         <div class="modal-body">
-                                            <g:form>
+                                            <g:form controller="DashboardAccess" action="sendInvitation">
                                                 <div class="mb-3">
-                                                    <label for="userEmail" class="form-label">Email*:</label>
-                                                    <input type="text" class="form-control" name="userEmail" id="userEmail">
+                                                    <label for="inviteEmail" class="form-label">Email*:</label>
+                                                    <input type="text" class="form-control" name="inviteEmail" id="inviteEmail">
                                                 </div>
                                                 <div class="form-group">
                                                     <label >Topic*</label>
-                                                    <g:select name="inviteToTopic" id="inviteToTopic" from="${userDetails["subscribedTopics"]}" noSelection="['':'-Choose Topic-']" required="true" class="form-control"/>
+                                                    <g:select name="inviteToTopic" id="inviteToTopic" from="${userDetails.subscribedTopics}" noSelection="['':'-Choose Topic-']" optionValue="${{topic -> topic.name}}" optionKey="${{topic -> topic.id}}" required="true" class="form-control"/>
                                                 </div>
                                                 <!-- Modal Footer -->
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-primary">Invite</button>
+                                                    <g:submitButton  name="invite" class="btn btn-primary" >Invite</g:submitButton>
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                                 </div>
                                             </g:form>
@@ -112,7 +114,7 @@
                                 </div>
                             </div>
                         </li>
-                    %{--Share link modal--}%
+                        %{--Share link modal--}%
                         <li class="nav-item">
                             <!-- Button to trigger modal -->
                             <button type="button" class="btn btn-link chat-icon mt-2" data-bs-toggle="modal"
@@ -143,7 +145,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label >Topic</label>
-                                                    <g:select name="shareLinkTopic" id="shareLinkTopic" from="${userDetails["subscribedTopics"]}" noSelection="['':'-Choose Topic-']" required="true" class="form-control"/>
+                                                    <g:select name="shareLinkTopic" id="shareLinkTopic" from="${userDetails["subscribedTopics"]}" noSelection="['':'-Choose Topic-']" optionValue="${{topic -> topic.name}}" optionKey="${{topic -> topic.id}}" required="true" class="form-control"/>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <g:submitButton name="Share" class="btn btn-primary">Share</g:submitButton>
@@ -156,7 +158,7 @@
                             </div>
                         </li>
 
-                    %{--document share modal--}%
+                        %{--document share modal--}%
                         <li class="align-self-start">
                             <!-- Button to trigger modal -->
                             <button type="button" class="btn btn-link chat-icon mt-2" data-bs-toggle="modal"
@@ -189,7 +191,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label >Topic</label>
-                                                    <g:select name="documentTopic" id="documentTopic" from="${userDetails["subscribedTopics"]}" noSelection="['':'-Choose Topic-']" required="true" class="form-control"/>
+                                                    <g:select name="documentTopic" id="documentTopic" from="${userDetails["subscribedTopics"]}" noSelection="['':'-Choose Topic-']" optionValue="${{topic -> topic.name}}" optionKey="${{topic -> topic.id}}" required="true" class="form-control"/>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <g:submitButton name="Share" class="btn btn-primary">Share</g:submitButton>
@@ -225,7 +227,8 @@
                                 </div>
                             </div>
                         </li>
-                </ul>
+                    </ul>
+                </g:if>
             </div>
         </div>
     </nav>

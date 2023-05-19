@@ -14,7 +14,7 @@ class TopPostsService {
             order('avg_score', 'desc')
         }
         def topPost=[]
-        top5ResourceRatings.each { res ->
+        top5ResourceRatings?.each { res ->
             Resource resource = res[0]
             def averageScore = res[1]
             def resourceMap=[resource:resource,avgScore:averageScore]

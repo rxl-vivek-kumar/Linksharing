@@ -21,6 +21,18 @@ $(document).ready(function() {
 
     });
 });
+$(document).ready(function() {
+    $('#postTable').dataTable({
+        "ordering": true,
+        "paging": true,
+        "lengthMenu": [20, 40, 60, 80, 100],
+        "pageLength": 20,
+        "searching": true,
+        "order": [[ 0, "asc" ],[1,"asc"],[2,"asc"],[3,"asc"],[4,"asc"],[5,"desc"],[6,"desc"]],
+
+    });
+});
+
 function editUserStance(userId,isActive){
     $(document).ready(function() {
         $('.activate-deactivate_'+userId).click(function() {
@@ -38,7 +50,7 @@ function editUserStance(userId,isActive){
                     $('#isActive_'+userId).text(isActive);
                 },
                 error: function(xhr) {
-                    alert('Error: ' + xhr.status);
+
                 }
             });
 
