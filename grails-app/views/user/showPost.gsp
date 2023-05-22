@@ -12,7 +12,33 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <asset:javascript src="dashboard.js"></asset:javascript>
 </head>
+<style>
 
+.rating {
+    display: inline-block;
+    direction: rtl;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    font-size: 30px;
+    color: #ddd;
+    cursor: pointer;
+    display: inline-block;
+    transform: scale(-1, 1);
+}
+
+.rating label:before {
+    content: '\2605';
+}
+
+.rating input:checked ~ label {
+    color: #ffce00;
+}
+</style>
 <body class="bg-secondary">
 <g:render template="/user/navbar"/>
 <div class="container-fluid" height="100vh">
@@ -64,33 +90,52 @@
                             </div>
 
                             <div class="row">
-                                <div class="col">
+                                <div class="col-sm-12">
                                     <h5>Rate</h5>
+                                    <div class="card-block d-flex mt-2">
 
-                                    <div class="form-group">
-                                        <input type="radio" id="star1" name="star1" value="1"
-                                               onclick="postRating(${postDetails.resource.id}, 1)"/><label
-                                            for="star1"></label>
-                                        <input type="radio" id="star2" name="star2" value="2"
-                                               onclick="postRating(${postDetails.resource.id}, 2)"/><label
-                                            for="star2"></label>
-                                        <input type="radio" id="star3" name="star3" value="3"
-                                               onclick="postRating(${postDetails.resource.id}, 3)"/><label
-                                            for="star3"></label>
-                                        <input type="radio" id="star4" name="star4" value="4"
-                                               onclick="postRating(${postDetails.resource.id}, 4)"/><label
-                                            for="star4"></label>
-                                        <input type="radio" id="star5" name="star5" value="5"
-                                               onclick="postRating(${postDetails.resource.id}, 5)"/><label
-                                            for="star5"></label>
+                                        <div hidden="true" id="post_${postDetails.resource.id}" class="resourceRatingdiv">i</div>
+
+                                        <div class="rating" id="${postDetails.resource.id}">
+                                            <input type="radio" id="star5" name="rating" value="5" />
+                                            <label for="star5" title="5 stars"></label>
+                                            <input type="radio" id="star4" name="rating" value="4" />
+                                            <label for="star4" title="4 stars"></label>
+                                            <input type="radio" id="star3" name="rating" value="3" />
+                                            <label for="star3" title="3 stars"></label>
+                                            <input type="radio" id="star2" name="rating" value="2" />
+                                            <label for="star2" title="2 stars"></label>
+                                            <input type="radio" id="star1" name="rating" value="1" />
+                                            <label for="star1" title="1 star"></label>
+                                        </div>
+                                        <p class="mt-2 offset-1">${postDetails.userCount}</p><p>_</p>
+                                        <p class="mt-2">ratings</p>
                                     </div>
+
+%{--                                    <div class="form-group">--}%
+%{--                                        <input type="radio" id="star1" name="star1" value="1"--}%
+%{--                                               onclick="postRating(${postDetails.resource.id}, 1)"/><label--}%
+%{--                                            for="star1"></label>--}%
+%{--                                        <input type="radio" id="star2" name="star2" value="2"--}%
+%{--                                               onclick="postRating(${postDetails.resource.id}, 2)"/><label--}%
+%{--                                            for="star2"></label>--}%
+%{--                                        <input type="radio" id="star3" name="star3" value="3"--}%
+%{--                                               onclick="postRating(${postDetails.resource.id}, 3)"/><label--}%
+%{--                                            for="star3"></label>--}%
+%{--                                        <input type="radio" id="star4" name="star4" value="4"--}%
+%{--                                               onclick="postRating(${postDetails.resource.id}, 4)"/><label--}%
+%{--                                            for="star4"></label>--}%
+%{--                                        <input type="radio" id="star5" name="star5" value="5"--}%
+%{--                                               onclick="postRating(${postDetails.resource.id}, 5)"/><label--}%
+%{--                                            for="star5"></label>--}%
+%{--                                    </div>--}%
                                 </div>
 
-                                <div class="col">
-                                    <h5>No.of Ratings</h5>
+%{--                                <div class="col">--}%
+%{--                                    <h5>No.of Ratings</h5>--}%
 
-                                    <div>${postDetails.userCount}</div>
-                                </div>
+%{--                                    <div>${postDetails.userCount}</div>--}%
+%{--                                </div>--}%
                             </div>
                         </div>
                     </div>
@@ -258,4 +303,51 @@
     </div>
 </div>
 </body>
+<script>
+    const ratingInputs = document.querySelectorAll('input[name="rating"]');
+    let selectedRating = null;
+
+    ratingInputs.forEach(input => {
+        input.addEventListener('change', () => {
+            selectedRating = input.value;
+            const ratingDiv = document.querySelector('.rating')
+            $.ajax({url: "/ShowPost/postRating?rating="+selectedRating+"&postId="+ratingDiv.id, success: function(result){
+                    window.location.reload() }
+            });
+        });
+    });
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+        var setResourceRating = document.querySelector(".resourceRatingdiv")
+        var ratingElement = document.querySelector(".rating");
+
+
+        if(setResourceRating.id=="1"){
+            var star1 = ratingElement.querySelector("#star1");
+            star1.checked = true
+        }
+        else if(setResourceRating.id=="2"){
+            var star2 = ratingElement.querySelector("#star2");
+            star2.checked = true
+        }
+        else if(setResourceRating.id=="3"){
+            var star3 = ratingElement.querySelector("#star3");
+            star3.checked = true
+        }
+        else if(setResourceRating.id=="4"){
+            var star4 = ratingElement.querySelector("#star4");
+            star4.checked = true
+        }
+        else if(setResourceRating.id=="5"){
+            var star5 = ratingElement.querySelector("#star5");
+            star5.checked = true
+        }
+
+    });
+
+
+
+</script>
 </html>

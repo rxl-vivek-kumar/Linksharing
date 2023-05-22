@@ -19,14 +19,17 @@ class ShowPostService {
         def postDetails=[resource:resource, userCount:userCount, avgRating:averageRating]
         return postDetails
     }
-    def postRating(params,user){
-        Resource res=Resource.get(params.resourceId as Long)
-        def score=params.value as Long
+    def postRating(params,userId){
+        def user=User.get(userId)
+        Resource res=Resource.get(params.postId as Long)
+        def score=params.rating as Long
         def resExist=ResourceRating.findByUserAndResource(user,res)
         if(resExist){
+
             resExist.score=score
         }else{
             resExist=new ResourceRating(user: user,resource: res,score: score)
+
         }
         if(resExist.save(flush:true,failOnError:true)){
             return true

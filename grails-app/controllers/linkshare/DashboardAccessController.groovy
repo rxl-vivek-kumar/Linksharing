@@ -1,5 +1,6 @@
 package linkshare
 
+import grails.converters.JSON
 import org.springframework.mail.MailSender
 import org.springframework.mail.SimpleMailMessage
 
@@ -33,6 +34,22 @@ class DashboardAccessController {
         mssg.setText("Click this link below to go to the Topic page: <a href='${url}'>${url}</a>")
         mailSender.send(mssg)
         redirect url: request.getHeader("Referer")
+    }
+
+    def sendOTP(){
+        def receiverEmail = params.email
+        if(!User.findByEmail(receiverEmail)){
+            render([success: false] as JSON)
+        }else{
+            def num=Math.abs( new Random().nextInt() % (9999 - 100) ) + 100
+            def mssg=new SimpleMailMessage()
+            mssg.setFrom('testingExample474747@outlook.com')
+            mssg.setTo("${receiverEmail}")
+            mssg.setSubject("OTP to reset your Password")
+            mssg.setText("${num}")
+            mailSender.send(mssg)
+            render([success:true] as JSON)
+        }
     }
 
     def searchTopic(){

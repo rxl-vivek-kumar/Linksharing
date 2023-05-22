@@ -152,26 +152,27 @@
                         <div class="row mb-3">
                             <div class="col-sm-4">First Name*</div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="firstName" id="firstName" aria-label="First name">
+                                <input type="text" class="form-control" name="firstName" id="firstName" aria-label="First name" required>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-4">Last Name*</div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="lastName" id="lastName" aria-label="Last name">
+                                <input type="text" class="form-control" name="lastName" id="lastName" aria-label="Last name" required>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-4">Username*</div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="userName" id="userName" aria-label="userName">
+                                <input type="text" class="form-control" name="userName" id="userName" aria-label="userName" required>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-4">Photo</div>
                             <div class="col-sm-7">
-                                <input type="file" id="" name="photo" />
+                                <input type="file" id="userPhoto" name="userPhoto" accept="gif|jpeg|bmp|png|jpg" />
                             </div>
+                            <div id="errorMessage" style="display: none; color: red;"></div>
                         </div>
                         <div class="row">
                             <div class="col-sm-5 offset-7">
@@ -210,5 +211,38 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('updateUserProfile').addEventListener('click', function(event) {
+        var fileInput = document.getElementById('userPhoto');
+        var maxFileSize = 128 * 1024; // 128KB
+
+        if (fileInput.files.length > 0) {
+            var file = fileInput.files[0];
+
+            if (file.size > maxFileSize) {
+                displayErrorMessage("Error: The file size exceeds the maximum allowed size of 128KB.");
+                event.preventDefault(); // Prevent form submission
+                return;
+            }
+
+            var allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                displayErrorMessage("Error: Please choose an image file (JPEG, PNG, GIF).");
+                event.preventDefault(); // Prevent form submission
+            }
+        }
+    });
+
+    function displayErrorMessage(message) {
+        var errorMessage = document.getElementById('errorMessage');
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+    }
+
+    document.getElementById('userPhoto').addEventListener('change', function(event) {
+        var errorMessage = document.getElementById('errorMessage');
+        errorMessage.style.display = 'none';
+    });
+</script>
 </body>
 </html>

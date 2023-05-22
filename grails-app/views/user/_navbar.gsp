@@ -27,8 +27,8 @@
             </button>
             <div class="collapse navbar-collapse offset-4" id="navbarNav">
                     <g:form class="d-flex" role="search" controller="DashboardAccess" action="searchTopic">
-                        <input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search" required>
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                        <input class="form-control me-2" type="search" name="query" id="query" placeholder="Search" aria-label="Search" required>
+                        <button class="btn btn-outline-success" name="search" id="search" type="submit">Search</button>
                     </g:form>
                 <g:if test="${session.currentUser}">
                     <ul class="navbar-nav ">
@@ -57,7 +57,7 @@
                                             <g:form controller="DashboardAccess" action="createTopic">
                                                 <div class="form-group mb-3">
                                                     <label >Name:</label>
-                                                    <input type="text" class="form-control" name="name">
+                                                    <input type="text" class="form-control" name="name" required>
                                                 </div>
                                                 <div class="form-group mb-3">
                                                     <label >Visibility:</label>
@@ -97,7 +97,7 @@
                                             <g:form controller="DashboardAccess" action="sendInvitation">
                                                 <div class="mb-3">
                                                     <label for="inviteEmail" class="form-label">Email*:</label>
-                                                    <input type="text" class="form-control" name="inviteEmail" id="inviteEmail">
+                                                    <input type="text" class="form-control" name="inviteEmail" id="inviteEmail" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label >Topic*</label>
@@ -137,11 +137,11 @@
                                             <g:form controller="shareLink" action="shareLink">
                                                 <div class="form-group">
                                                     <label for="shareLinkUrl">Url*</label>
-                                                    <input type="text" class="form-control" id="shareLinkUrl" name="shareLinkUrl" placeholder="Enter link">
+                                                    <input type="text" class="form-control" id="shareLinkUrl" name="shareLinkUrl" placeholder="Enter link" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="shareLinkDescription">Description</label>
-                                                    <textarea class="form-control" id="shareLinkDescription" name="shareLinkDescription" rows="3"></textarea>
+                                                    <textarea class="form-control" id="shareLinkDescription" name="shareLinkDescription" rows="3" required></textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <label >Topic</label>
@@ -182,12 +182,12 @@
                                                 <div class="form-group">
                                                     <label>Document</label>
                                                     <div class="custom-file">
-                                                        <input type="file" class="custom-file-input"  name="document">
+                                                        <input type="file" class="custom-file-input"  name="document" required>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label >Description</label>
-                                                    <textarea class="form-control" name="documentDescription" rows="3"></textarea>
+                                                    <textarea class="form-control" name="documentDescription" rows="3" required></textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <label >Topic</label>
@@ -233,7 +233,29 @@
         </div>
     </nav>
 </div>
+<div id="errorMessage" style="display: none; color: red;"></div>
+<script>
+    document.getElementById('search').addEventListener('click', function(event) {
+        var keywordInput = document.getElementById('query');
+        var maxCharacters = 255;
 
+        if (keywordInput.value.length > maxCharacters) {
+            displayErrorMessage("Error: The keyword exceeds the maximum limit of 255 characters.");
+            event.preventDefault(); // Prevent form submission
+        }
+    });
+
+    function displayErrorMessage(message) {
+        var errorMessage = document.getElementById('errorMessage');
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+    }
+
+    document.getElementById('query').addEventListener('input', function(event) {
+        var errorMessage = document.getElementById('errorMessage');
+        errorMessage.style.display = 'none';
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>

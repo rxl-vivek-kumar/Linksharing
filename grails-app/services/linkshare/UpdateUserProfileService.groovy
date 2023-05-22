@@ -6,6 +6,9 @@ import grails.gorm.transactions.Transactional
 class UpdateUserProfileService {
 
     def serviceMethod(params,userId) {
+        if(User.findByUserName(params.userName)){
+            return "userName not available"
+        }
         User user=User.get(userId as Long)
         user.firstName=params.firstName
         user.lastName=params.lastName
@@ -22,7 +25,11 @@ class UpdateUserProfileService {
             params.photo=url.substring(25)
             user.photo=params.photo
         }
-        user.save(flush:true,failOnError:true)
+        if(user.save(flush:true,failOnError:true)){
+            return "Profile Updated Successfully"
+        }else{
+            return ""
+        }
     }
 
     def changePassword(params,userId){

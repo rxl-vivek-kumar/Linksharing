@@ -21,6 +21,38 @@ function forgotPassword(){
     });
 }
 
+function sendOTP() {
+    $(document).ready(function () {
+        var email = document.getElementById("forgotPasswordEmail").value;
+
+        $.ajax({
+            url:'/DashboardAccess/sendOTP',
+            type: 'POST',
+            data: {email:email},
+            success: function(response) {
+                if (response.success) {
+                    $('#sendOTP').hide();
+                    $('#verifyOTP').show();
+                    $('#error').hide();
+                } else {
+                    $('#error').show();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log(email);
+                alert('Email not Registered. Please try again.');
+            }
+        });
+    });
+}
+
+function cancelVerification(){
+    $(document).ready(function () {
+        $('#sendOTP').show();
+        $('#verifyOTP').hide();
+    });
+}
+
 function sendInvitation(){
     $(document).ready(function(){
         var email=$('input[id="#inviteEmail"]').val()
@@ -60,6 +92,7 @@ function cancelTopic(topicId) {
 function saveTopic(topicId) {
     $(document).ready(function () {
         var newTopicName = $('input[name="newTopicName"]').val();
+        console.log(newTopicName)
 
         $.ajax({
             url: '/editSubscribedTopic/index',
@@ -131,7 +164,6 @@ function editSeriousness(subscriptionId){
 function editTopicSeriousness(topicId,userId){
     $(document).ready(function(){
         var seriousness=document.getElementById("seriousness_"+topicId).value;
-        console.log(seriousness);
         $.ajax({
             url:'/editSubscribedTopic/editTopicSeriousness',
             type: 'POST',
@@ -384,6 +416,7 @@ function postRating(resourceId,value){
         });
     });
 }
+
 
 
 

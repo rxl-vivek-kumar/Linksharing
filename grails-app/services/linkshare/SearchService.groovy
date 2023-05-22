@@ -1,4 +1,6 @@
 package linkshare
+import linkshare.VisibilityEnum
+
 
 import grails.gorm.transactions.Transactional
 
@@ -42,7 +44,7 @@ class SearchService {
                     return Resource.createCriteria().list {
                         createAlias('topic', 't')
                         or {
-                            eq 't.visibility', linksharing.Visibility.PUBLIC
+                            eq 't.visibility', linkshare.VisibilityEnum.Public
                             eq 't.createdBy', user
                         }
                         or {

@@ -23,8 +23,8 @@ class ShowPostController {
 
     def postRating(){
         if(!session.currentUser){redirect(url:'/User')}
-        User user=session.currentUser
-        def message=ShowPostService.postRating(params,user)
+        def userId=session.currentUser.id
+        def message=ShowPostService.postRating(params,userId)
         if(message){
             flash.message="Thank You for Rating"
             render([success:true] as JSON)

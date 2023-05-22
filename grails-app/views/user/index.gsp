@@ -6,6 +6,9 @@
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <asset:javascript src="dashboard.js"></asset:javascript>
     <style>
     .custom-row {
         height: 100vh;
@@ -119,34 +122,54 @@
                             <input type="password" class="form-control" id="loginPassword" name="loginPassword" required>
                         </div>
                         <div class="form-group mt-2">
-                            <a data-bs-toggle="modal" data-bs-target="">Forgot Password?</a>
+                            <a data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</a>
                             <button type="submit" id="login" name="login" class="btn btn-primary offset-4 mt-2">Login</button>
                         </div>
                     </g:form>
-%{--                        <div class="modal fade" id="forgotPasswordModal" tabindex="-1"--}%
-%{--                             aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">--}%
-%{--                            <div class="modal-dialog mt-2">--}%
-%{--                                <div class="modal-content mt-2">--}%
-%{--                                    <!-- Modal Header -->--}%
-%{--                                    <div class="modal-header">--}%
-%{--                                        <h5 class="modal-title" id="forgotPasswordModalLabel">Reset Password</h5>--}%
-%{--                                        <button type="button" class="btn-close" data-bs-dismiss="modal"--}%
-%{--                                                aria-label="Close"></button>--}%
-%{--                                    </div>--}%
-%{--                                    <g:form id="forgotPasswordForm">--}%
-%{--                                        <div class="form-group mt-2">--}%
-%{--                                            <label >Email address:</label>--}%
-%{--                                            <input type="email" class="form-control"  id="forgotPasswordEmail" name="email" aria-describedby="emailHelp" placeholder="Enter email">--}%
-%{--                                        </div>--}%
-%{--                                        <div class="form-group">--}%
-%{--                                            <label for="newPassword">New Password:</label>--}%
-%{--                                            <input type="password" class="form-control" id="newPassword" name="password" required>--}%
-%{--                                        </div>--}%
-%{--                                        <button type="submit" class="btn btn-primary mt-2" onclick="forgotPassword()" name="submit">Submit</button>--}%
-%{--                                    </g:form>--}%
-%{--                                </div>--}%
-%{--                            </div>--}%
-%{--                        </div>--}%
+                        <div class="modal fade" id="forgotPasswordModal" tabindex="-1"
+                             aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+                            <div class="modal-dialog mt-2">
+                                <div class="modal-content mt-2">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="forgotPasswordModalLabel">Reset Password</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                    </div>
+                                    <div class="sendOTP" id="sendOTP">
+                                        <form>
+                                            <div class="form-group mt-3">
+                                                <label >Email address:</label>
+                                                <input type="email" class="form-control mt-1"  id="forgotPasswordEmail" name="forgotPasswordEmail" aria-describedby="emailHelp" placeholder="Enter email" required>
+                                            </div>
+                                            <div class="error" id="error" style="display:none;">Email not Registered</div>
+                                            <div class="form-group mt-2">
+                                                <button type="button" onclick="sendOTP()">Send OTP</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="sendOTP" id="verifyOTP" style="display:none;">
+                                        <form>
+                                            <div class="form-group mt-2">
+                                                <input type="text" id="otp" name="otp" placeholder="Enter OTP here" required>
+                                                <button type="button" onclick="verifyOTP()">Verify</button>
+                                                <button type="button" onclick="cancelVerification()">Cancel</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="sendOTP" id="resetPassword" style="display:none;">
+                                        <form>
+                                            <div class="form-group mt-1">
+                                                <label for="newPassword">New Password:</label>
+                                                <input type="password" class="form-control" id="newPassword" name="password" required>
+                                            </div>
+                                            <button type="button" class="btn btn-primary mt-2" onclick="forgotPassword()" name="submit">Submit</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </div>
 
@@ -196,8 +219,10 @@
                         <div class="row mb-3">
                             <div class="col-sm-4">Photo</div>
                             <div class="col-sm-7">
-                                <input type="file" name="photo" />
+                                <input type="file" name="photo" id="userPhoto"/>
                             </div>
+                            <div id="errorMessage" style="display: none; color: red;"></div>
+
                         </div>
                         <div class="row">
                             <div class="col-sm-5 offset-7">
@@ -210,14 +235,45 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('register').addEventListener('click', function(event) {
+        var fileInput = document.getElementById('userPhoto');
+        var maxFileSize = 128 * 1024; // 128KB
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+        if (fileInput.files.length > 0) {
+            var file = fileInput.files[0];
+
+            if (file.size > maxFileSize) {
+                displayErrorMessage("Error: The file size exceeds the maximum allowed size of 128KB.");
+                event.preventDefault(); // Prevent form submission
+                return;
+            }
+
+            var allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                displayErrorMessage("Error: Please choose an image file (JPEG, PNG, GIF).");
+                event.preventDefault(); // Prevent form submission
+            }
+        }
+    });
+
+    function displayErrorMessage(message) {
+        var errorMessage = document.getElementById('errorMessage');
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+    }
+
+    document.getElementById('userPhoto').addEventListener('change', function(event) {
+        var errorMessage = document.getElementById('errorMessage');
+        errorMessage.style.display = 'none';
+    });
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
         integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous">
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
         integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous">
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<asset:javascript src="dashboard.js"></asset:javascript>
+    </script>
 </body>
 </html>
