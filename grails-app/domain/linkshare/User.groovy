@@ -21,7 +21,7 @@ class User {
         email unique:true
         userName unique:true
         password  blank:false, maxsize:8, minsize:5,validator:{val,obj->
-            if(val.length()<8) {
+            if(val.length()<5 || val.length()>8) {
                 return 'validation.passwordLength'}
         }
         firstName nullable:false

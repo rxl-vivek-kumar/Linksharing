@@ -15,7 +15,7 @@
                 <g:form controller="DashboardAccess" action="sendInvitation">
                     <div class="mb-3">
                         <label for="inviteEmail" class="form-label">Email*:</label>
-                        <input type="text" class="form-control" name="inviteEmail" id="inviteEmail">
+                        <input type="text" class="form-control" name="inviteEmail" id="inviteEmail" required>
                     </div>
                     <div class="form-group">
                         <label >Topic*</label>

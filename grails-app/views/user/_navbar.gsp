@@ -233,7 +233,7 @@
         </div>
     </nav>
 </div>
-<div id="errorMessage" style="display: none; color: red;"></div>
+<div id="searchErrorMessage" style="display: none; color: red;"></div>
 <script>
     document.getElementById('search').addEventListener('click', function(event) {
         var keywordInput = document.getElementById('query');
@@ -246,13 +246,13 @@
     });
 
     function displayErrorMessage(message) {
-        var errorMessage = document.getElementById('errorMessage');
+        var errorMessage = document.getElementById('searchErrorMessage');
         errorMessage.textContent = message;
         errorMessage.style.display = 'block';
     }
 
     document.getElementById('query').addEventListener('input', function(event) {
-        var errorMessage = document.getElementById('errorMessage');
+        var errorMessage = document.getElementById('searchErrorMessage');
         errorMessage.style.display = 'none';
     });
 </script>

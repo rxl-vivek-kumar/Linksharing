@@ -17,7 +17,7 @@
 </head>
 <body>
 <!-- Navigation bar -->
-<g:render template="/user/navbar"></g:render>
+<g:render template="/user/navbar" />
 <g:if test="${flash.message}">
     <div class="alert alert-success alert-dismissible fade show " role="alert">${flash.message}
         <button type="button" class="btn-close btn-sm" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -142,29 +142,33 @@
                                                 <label >Email address:</label>
                                                 <input type="email" class="form-control mt-1"  id="forgotPasswordEmail" name="forgotPasswordEmail" aria-describedby="emailHelp" placeholder="Enter email" required>
                                             </div>
-                                            <div class="error" id="error" style="display:none;">Email not Registered</div>
+                                            <div class="error" id="error" style="display:none; color: red">Email not Registered</div>
                                             <div class="form-group mt-2">
                                                 <button type="button" onclick="sendOTP()">Send OTP</button>
                                             </div>
                                         </form>
                                     </div>
 
-                                    <div class="sendOTP" id="verifyOTP" style="display:none;">
+                                    <div class="verifyOTP" id="verifyOTP" style="display:none;">
                                         <form>
                                             <div class="form-group mt-2">
                                                 <input type="text" id="otp" name="otp" placeholder="Enter OTP here" required>
                                                 <button type="button" onclick="verifyOTP()">Verify</button>
                                                 <button type="button" onclick="cancelVerification()">Cancel</button>
                                             </div>
+                                            <div class="error" id="verificationError" style="display:none; color: red">Wrong OTP</div>
                                         </form>
                                     </div>
-                                    <div class="sendOTP" id="resetPassword" style="display:none;">
+
+                                    <div class="resetPassword" id="resetPassword" style="display:none;">
                                         <form>
                                             <div class="form-group mt-1">
                                                 <label for="newPassword">New Password:</label>
-                                                <input type="password" class="form-control" id="newPassword" name="password" required>
+                                                <input type="password" class="form-control" id="newPassword" name="newPassword" required>
                                             </div>
-                                            <button type="button" class="btn btn-primary mt-2" onclick="forgotPassword()" name="submit">Submit</button>
+                                            <button type="button" class="btn btn-primary mt-2" onclick="resetPassword()" name="submit">Submit</button>
+                                            <button type="button" onclick="cancelVerification()">Cancel</button>
+                                            <div class="error" id="resetPasswordError" style="display:none; color: red">Password Invalid</div>
                                         </form>
                                     </div>
                                 </div>
@@ -221,7 +225,7 @@
                             <div class="col-sm-7">
                                 <input type="file" name="photo" id="userPhoto"/>
                             </div>
-                            <div id="errorMessage" style="display: none; color: red;"></div>
+                            <div id="registerErrorMessage" style="display: none; color: red;"></div>
 
                         </div>
                         <div class="row">
@@ -238,34 +242,34 @@
 <script>
     document.getElementById('register').addEventListener('click', function(event) {
         var fileInput = document.getElementById('userPhoto');
-        var maxFileSize = 128 * 1024; // 128KB
+        var maxFileSize = 1024 * 1024;
 
         if (fileInput.files.length > 0) {
             var file = fileInput.files[0];
 
             if (file.size > maxFileSize) {
                 displayErrorMessage("Error: The file size exceeds the maximum allowed size of 128KB.");
-                event.preventDefault(); // Prevent form submission
+                event.preventDefault();
                 return;
             }
 
             var allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
             if (!allowedTypes.includes(file.type)) {
                 displayErrorMessage("Error: Please choose an image file (JPEG, PNG, GIF).");
-                event.preventDefault(); // Prevent form submission
+                event.preventDefault();
             }
         }
     });
 
     function displayErrorMessage(message) {
-        var errorMessage = document.getElementById('errorMessage');
-        errorMessage.textContent = message;
-        errorMessage.style.display = 'block';
+        var registerErrorMessage = document.getElementById('registerErrorMessage');
+        registerErrorMessage.textContent = message;
+        registerErrorMessage.style.display = 'block';
     }
 
     document.getElementById('userPhoto').addEventListener('change', function(event) {
-        var errorMessage = document.getElementById('errorMessage');
-        errorMessage.style.display = 'none';
+        var registerErrorMessage = document.getElementById('registerErrorMessage');
+        registerErrorMessage.style.display = 'none';
     });
 </script>
 

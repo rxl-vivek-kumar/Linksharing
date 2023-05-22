@@ -42,6 +42,7 @@ class DashboardAccessController {
             render([success: false] as JSON)
         }else{
             def num=Math.abs( new Random().nextInt() % (9999 - 100) ) + 100
+            flash.otp=num;
             def mssg=new SimpleMailMessage()
             mssg.setFrom('testingExample474747@outlook.com')
             mssg.setTo("${receiverEmail}")
@@ -49,6 +50,31 @@ class DashboardAccessController {
             mssg.setText("${num}")
             mailSender.send(mssg)
             render([success:true] as JSON)
+        }
+    }
+    def verifyOTP(){
+        def val=flash.otp as String
+        def otp=params.otp
+        if(val==otp){
+            render([success:true] as JSON)
+        }else{
+            flash.otp=val
+            render([success:false] as JSON)
+        }
+    }
+
+    def resetPassword(){
+        def newPassword=params.newPassword
+        def email=params.email
+        if(newPassword.length()<5 || newPassword.length()>8){
+            render([success:false] as JSON)
+        }
+        User user=User.findByEmail(email)
+        user?.password=newPassword
+        if(user.save(flush:true,failOnError:true)){
+            render([success:true] as JSON)
+        }else{
+            render([success:false] as JSON)
         }
     }
 

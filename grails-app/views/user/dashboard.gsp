@@ -73,7 +73,7 @@
                                             <h5><a href="/TopicShow/index?topicId=${subsData.topic.id}" class="topicName" id="topicName_${subsData.topic.id}">${subsData.topic.name}</a></h5>
                                             <div class="edit-form" id="editTopicClass_${subsData.topic.id}" style="display:none;">
                                                 <form>
-                                                    <input type="text" name="newTopicName">
+                                                    <input type="text" name="newTopicName" required>
                                                     <button type="button" onclick="saveTopic('${subsData.topic.id}')" class="save-button" id="saveTopic_${subsData.topic.id}">Save</button>
                                                     <button type="button" onclick="cancelTopic('${subsData.topic.id}')" class="cancel-button"id="cancelTopic_${subsData.topic.id}">Cancel</button>
                                                 </form>
@@ -168,7 +168,7 @@
                                                 <h5><a href="/TopicShow/index?topicId=${trending.topic.id}" class="topicName" id="trendingTopicName_${trending.topic.id}">${trending.topic.name}</a></h5>
                                                 <div class="edit-form" id="editTrendingTopicClass_${trending.topic.id}" style="display:none;">
                                                     <form>
-                                                        <input type="text" name="newTopicName">
+                                                        <input type="text" name="newTopicName" required>
                                                         <button type="button" onclick="saveTrendingTopic('${trending.topic.id}')" class="save-button" id="saveTrendingTopic_${trending.topic.id}">Save</button>
                                                         <button type="button" onclick="cancelTrendingTopic('${trending.topic.id}')" class="cancel-button"id="cancelTrendingTopic_${trending.topic.id}">Cancel</button>
                                                     </form>

@@ -274,10 +274,10 @@
                     <td id="lastName_${user.id}">${user.lastName}</td>
                     <td id="isActive_${user.id}">${user.isActive}</td>
                     <td class="activate-deactivate_${user.id}">
-                        <a id="activate-deactivate_${user.id}" href="#" data-user-id="${user.id}"
+                        <button type="button btn-underline" id="activate-deactivate_${user.id}" data-user-id="${user.id}"
                            data-isActive="${user.isActive}" onclick="editUserStance(${user.id}, ${user.isActive})">
                             ${user.isActive ? 'Deactivate' : 'Activate'}
-                        </a>
+                        </button>
                     </td>
                 </tr>
             </g:each>

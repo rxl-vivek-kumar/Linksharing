@@ -1,25 +1,3 @@
-function forgotPassword(){
-
-    const email = document.getElementById("forgotPasswordEmail").value;
-    const password = document.getElementById("newPassword").value;
-
-    $.ajax({
-        type: "POST",
-        url: "/forgotPassword/resetPassword",
-        data: { email, password },
-        success: function(response) {
-            if (response.success) {
-                alert("Password updated successfully!");
-            } else {
-                alert("There was an error updating your password.");
-            }
-        },
-        error: function(xhr, status, error) {
-            alert("There was an error updating your password.");
-            console.error(xhr.responseText);
-        }
-    });
-}
 
 function sendOTP() {
     $(document).ready(function () {
@@ -39,7 +17,6 @@ function sendOTP() {
                 }
             },
             error: function(xhr, status, error) {
-                console.log(email);
                 alert('Email not Registered. Please try again.');
             }
         });
@@ -50,6 +27,53 @@ function cancelVerification(){
     $(document).ready(function () {
         $('#sendOTP').show();
         $('#verifyOTP').hide();
+        $('#resetPassword').hide();
+    });
+}
+
+function verifyOTP(){
+    $(document).ready(function () {
+        var otp=$('input[id="otp"]').val();
+        $.ajax({
+            url:'/DashboardAccess/verifyOTP',
+            type:'POST',
+            data:{otp:otp},
+            success: function(response) {
+                if(response.success){
+                    $('#verifyOTP').hide();
+                    $('#resetPassword').show();
+                }else{
+                    $('#verificationError').show();
+                }
+            },
+            error: function(xhr, status, error){
+                $('#verificationError').show();
+            }
+        });
+    });
+}
+
+function resetPassword(){
+    $(document).ready(function () {
+        var newPassword=$('input[id="newPassword"]').val();
+        var email=$('input[id="forgotPasswordEmail"]').val();
+
+        $.ajax({
+            url:'/DashboardAccess/resetPassword',
+            type: 'POST',
+            data:{
+                newPassword:newPassword,email:email
+            },
+            success: function(response) {
+                $('#resetPassword').hide();
+                $('#sendOTP').show();
+                $('#resetPasswordError').hide();
+                window.location.reload();
+            },
+            error: function(xhr, status, error){
+                $('#resetPasswordError').show();
+            }
+        });
     });
 }
 

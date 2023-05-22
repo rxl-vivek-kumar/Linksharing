@@ -214,7 +214,7 @@
 <script>
     document.getElementById('updateUserProfile').addEventListener('click', function(event) {
         var fileInput = document.getElementById('userPhoto');
-        var maxFileSize = 128 * 1024; // 128KB
+        var maxFileSize = 128* 1024;
 
         if (fileInput.files.length > 0) {
             var file = fileInput.files[0];
