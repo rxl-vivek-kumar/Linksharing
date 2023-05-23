@@ -26,8 +26,8 @@ class ShowPostController {
         def userId=session.currentUser.id
         def message=ShowPostService.postRating(params,userId)
         if(message){
-            flash.message="Thank You for Rating"
-            render([success:true] as JSON)
+            String msg="${params.rating}/5"
+            render([success:true, msg:msg] as JSON)
         }else{
             flash.error="Something Went Wrong. Try Again! "
             render([success:false] as JSON)

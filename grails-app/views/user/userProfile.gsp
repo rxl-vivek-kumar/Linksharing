@@ -60,7 +60,43 @@
                 <div class="card" style="border-radius: 25px;">
                     <div class="card-header">
                         <b>Subscription</b>
-                        <a href="#" class="" style="float: right;">View all</a>
+                        <button type="button" class="btn btn-link chat-icon mt-2 offset-7" data-bs-toggle="modal"
+                                data-bs-target="#subscriptionListModal">
+                            <a href="#" style="float: right;">View all</a>
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="subscriptionListModal" tabindex="-1"
+                             aria-labelledby="subscriptionListModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- modal Header -->
+                                    <div class="modal-header" >
+                                        <h5 class="modal-title" id="subscriptionListModalLabel">Subscription List</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close">
+                                        </button>
+                                    </div>
+                                    <!-- Modal Body -->
+                                    <div class="modal-body">
+                                        <div class="scrollable-container" style="overflow-y:scroll; max-height:270px">
+                                            <g:each in="${subscriptionDetails}" var="subsData">
+                                                <div class="row" id="subscribedTopic_${subsData.topic.id}">
+                                                    <div class="row mt-3">
+                                                        <div class="col-sm-2 mt-3">
+                                                            <a href="/User/userProfile?user=${subsData.createdBy.id}"><g:img dir="images" file="${subsData.createdBy.photo}"  width="80" height="80"/></a>
+                                                        </div>
+                                                        <div class="col-md-8 offset-1 mt-3">
+                                                            <h6><a href="/TopicShow/index?topicId=${subsData.topic.id}" class="topicName" id="listTopicName_${subsData.topic.id}">${subsData.topic.name}</a></h6>
+                                                            <p><a href="/User/userProfile?user=${subsData.createdBy.id}"><span>@${subsData.createdBy.userName}</span></a></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </g:each>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="scrollable-container" style="overflow-y:scroll; max-height:270px">
@@ -156,6 +192,43 @@
                 <div class="card" style="border-radius: 25px;">
                     <div class="card-header">
                         <b>Topics</b>
+                        <button type="button" class="btn btn-link chat-icon mt-2 offset-8" data-bs-toggle="modal"
+                                data-bs-target="#userTopicListModal">
+                            <a href="#" style="float: right;">View all</a>
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="userTopicListModal" tabindex="-1"
+                             aria-labelledby="userTopicListModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <!-- modal Header -->
+                                    <div class="modal-header" >
+                                        <h5 class="modal-title" id="userTopicListModalLabel">Topic List</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close">
+                                        </button>
+                                    </div>
+                                    <!-- Modal Body -->
+                                    <div class="modal-body">
+                                        <div class="scrollable-container" style="overflow-y:scroll; max-height:270px">
+                                            <g:each in="${userTopicDetails}" var="topicData">
+                                                <div class="row" id="userTopic_${topicData.topic.id}">
+                                                    <div class="row mt-3">
+                                                        <div class="col-sm-2 mt-3">
+                                                            <a href="/User/userProfile?user=${topicData.createdBy.id}"><g:img dir="images" file="${topicData.createdBy.photo}"  width="80" height="80"/></a>
+                                                        </div>
+                                                        <div class="col-md-8 offset-1 mt-3">
+                                                            <h6><a href="/TopicShow/index?topicId=${topicData.topic.id}" class="topicName" id="listTopicName_${topicData.topic.id}">${topicData.topic.name}</a></h6>
+                                                            <p><a href="/User/userProfile?user=${topicData.createdBy.id}"><span>@${topicData.createdBy.userName}</span></a></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </g:each>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="scrollable-container" style="overflow-y:scroll; max-height:270px">

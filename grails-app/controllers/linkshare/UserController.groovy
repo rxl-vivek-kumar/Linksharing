@@ -60,7 +60,8 @@ class UserController {
 
     def updateUserProfile(){
         def userId=session.currentUser.id
-        UpdateUserProfileService.serviceMethod(params,userId)
+        def mssg=UpdateUserProfileService.serviceMethod(params,userId)
+        flash.update=mssg;
         session.currentUser=User.get(userId)
         redirect(url:'/User/editUserProfile')
     }

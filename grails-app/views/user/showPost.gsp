@@ -60,18 +60,16 @@
                     </g:if>
                     <div class="row">
                         <div class="col-sm-2 mt-2">
-                                <a href="/User/userProfile?user=${postDetails.resource.createdBy.id}"><g:img
-                                        dir="images" id="profilePhoto" file="${postDetails.resource.createdBy.photo}"
-                                        width="80" height="100"/></a>
+                            <a href="/User/userProfile?user=${postDetails.resource.createdBy.id}"><g:img dir="images" id="profilePhoto" file="${postDetails.resource.createdBy.photo}"
+                                    width="80" height="100"/>
+                            </a>
                         </div>
-
                         <div class="col-sm-4">
                             <div class="row">
                                 <a href="/User/userProfile?user=${postDetails.resource.createdBy.id}"><h5
-                                            class="card-text">${postDetails.resource.createdBy.firstName + "." + postDetails.resource.createdBy.lastName}</h5>
+                                        class="card-text">${postDetails.resource.createdBy.firstName + "." + postDetails.resource.createdBy.lastName}</h5>
                                 </a>
                             </div>
-
                             <div class="row">
                                 <p class="card-text text-muted">
                                     <a href="/User/userProfile?user=${postDetails.resource.createdBy.id}">@${postDetails.resource.createdBy.userName}</a>
@@ -108,34 +106,11 @@
                                             <input type="radio" id="star1" name="rating" value="1" />
                                             <label for="star1" title="1 star"></label>
                                         </div>
+                                        <p class="userRating mt-2" id="userRating" style="display:none;"></p>
                                         <p class="mt-2 offset-1">${postDetails.userCount}</p><p>_</p>
                                         <p class="mt-2">ratings</p>
                                     </div>
-
-%{--                                    <div class="form-group">--}%
-%{--                                        <input type="radio" id="star1" name="star1" value="1"--}%
-%{--                                               onclick="postRating(${postDetails.resource.id}, 1)"/><label--}%
-%{--                                            for="star1"></label>--}%
-%{--                                        <input type="radio" id="star2" name="star2" value="2"--}%
-%{--                                               onclick="postRating(${postDetails.resource.id}, 2)"/><label--}%
-%{--                                            for="star2"></label>--}%
-%{--                                        <input type="radio" id="star3" name="star3" value="3"--}%
-%{--                                               onclick="postRating(${postDetails.resource.id}, 3)"/><label--}%
-%{--                                            for="star3"></label>--}%
-%{--                                        <input type="radio" id="star4" name="star4" value="4"--}%
-%{--                                               onclick="postRating(${postDetails.resource.id}, 4)"/><label--}%
-%{--                                            for="star4"></label>--}%
-%{--                                        <input type="radio" id="star5" name="star5" value="5"--}%
-%{--                                               onclick="postRating(${postDetails.resource.id}, 5)"/><label--}%
-%{--                                            for="star5"></label>--}%
-%{--                                    </div>--}%
                                 </div>
-
-%{--                                <div class="col">--}%
-%{--                                    <h5>No.of Ratings</h5>--}%
-
-%{--                                    <div>${postDetails.userCount}</div>--}%
-%{--                                </div>--}%
                             </div>
                         </div>
                     </div>
@@ -143,12 +118,10 @@
                     <div class="row">
                         <p>${postDetails.resource.description}</p>
                     </div>
-
                     <div class="row">
                         <div class="col-sm-3">
                             <p>Social link</p>
                         </div>
-
                         <div class="col-sm-9">
                             <g:if test="${postDetails.resource.instanceOf(LinkResource)}"><a
                                     href="${postDetails.resource.url}" target="_blank"
@@ -176,29 +149,20 @@
                                 <div class="row" id="trendingTopic_${trending.topic.id}">
                                     <div class="row mt-3">
                                         <div class="col-sm-2 mt-3">
-                                            <a href="/User/userProfile?user=${trending.topic.createdBy.id}"><g:img
-                                                    dir="images" file="${trending.topic.createdBy.photo}" width="80"
+                                            <a href="/User/userProfile?user=${trending.topic.createdBy.id}"><g:img dir="images" file="${trending.topic.createdBy.photo}" width="80"
                                                     height="80"/></a>
                                         </div>
 
                                         <div class="col-md-8">
-                                            <h5><a href="/TopicShow/index?topicId=${trending.topic.id}"
-                                                   class="topicName"
+                                            <h5><a href="/TopicShow/index?topicId=${trending.topic.id}" class="topicName"
                                                    id="trendingTopicName_${trending.topic.id}">${trending.topic.name}</a>
                                             </h5>
 
-                                            <div class="edit-form" id="editTrendingTopicClass_${trending.topic.id}"
-                                                 style="display:none;">
+                                            <div class="edit-form" id="editTrendingTopicClass_${trending.topic.id}" style="display:none;">
                                                 <form>
                                                     <input type="text" name="newTopicName">
-                                                    <button type="button"
-                                                            onclick="saveTrendingTopic('${trending.topic.id}')"
-                                                            class="save-button"
-                                                            id="saveTrendingTopic_${trending.topic.id}">Save</button>
-                                                    <button type="button"
-                                                            onclick="cancelTrendingTopic('${trending.topic.id}')"
-                                                            class="cancel-button"
-                                                            id="cancelTrendingTopic_${trending.topic.id}">Cancel</button>
+                                                    <button type="button" onclick="saveTrendingTopic('${trending.topic.id}')" class="save-button" id="saveTrendingTopic_${trending.topic.id}">Save</button>
+                                                    <button type="button" onclick="cancelTrendingTopic('${trending.topic.id}')" class="cancel-button" id="cancelTrendingTopic_${trending.topic.id}">Cancel</button>
                                                 </form>
                                             </div>
 
@@ -226,13 +190,11 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         <g:if test="${Subscription.findByUserAndTopic(session.currentUser, trending.topic)}">
-                                                            <p><a href="#"
-                                                                  onclick="Unsubscribe(${trending.topic.id}, ${session.currentUser?.id})">Unsubscribe</a>
+                                                            <p><a href="#" onclick="Unsubscribe(${trending.topic.id}, ${session.currentUser?.id})">Unsubscribe</a>
                                                             </p>
                                                         </g:if>
                                                         <g:else>
-                                                            <p><a href="#"
-                                                                  onclick="subscribe(${trending.topic.id}, ${session.currentUser?.id})">Subscribe</a>
+                                                            <p><a href="#" onclick="subscribe(${trending.topic.id}, ${session.currentUser?.id})">Subscribe</a>
                                                             </p>
                                                         </g:else>
                                                     </div>
@@ -312,7 +274,9 @@
             selectedRating = input.value;
             const ratingDiv = document.querySelector('.rating')
             $.ajax({url: "/ShowPost/postRating?rating="+selectedRating+"&postId="+ratingDiv.id, success: function(result){
-                    window.location.reload() }
+                    $('#userRating').text(result.msg)
+                    $("#userRating").show();
+                }
             });
         });
     });

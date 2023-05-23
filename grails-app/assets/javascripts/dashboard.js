@@ -1,4 +1,13 @@
-
+$(document).ready(function() {
+    $('#topicPostsTable').dataTable({
+        "ordering": true,
+        "paging": true,
+        "lengthMenu": [5,10,15,20],
+        "pageLength": 5,
+        "searching": true,
+        "order": [[ 0, "asc" ]],
+    });
+});
 function sendOTP() {
     $(document).ready(function () {
         var email = document.getElementById("forgotPasswordEmail").value;
@@ -400,7 +409,7 @@ function Unsubscribe(topicId,userId){
                 window.location.reload()
             },
             error: function(error) {
-                console.log(error);
+
             }
 
         });
@@ -409,7 +418,7 @@ function Unsubscribe(topicId,userId){
 
 function subscribe(topicId,userId){
     $(document).ready(function(){
-        var seriousness=document.getElementById('seriousness_'+topicId).value
+        var seriousness=document.getElementById('seriousness_'+topicId)?.value
         $.ajax({
             url: '/Subscription/subscribeTopic',
             type: 'POST',
@@ -427,12 +436,16 @@ function subscribe(topicId,userId){
 
 function postRating(resourceId,value){
     $(document).ready(function(){
+        console.log("hahhahahahha")
         $.ajax({
            url: '/ShowPost/postRating',
            type: 'POST',
            data: {resourceId:resourceId,value:value},
             success: function(response) {
-                window.location.reload()
+               if(response.success){
+
+               }
+               // window.location.reload()
             },
             error: function(error) {
                 console.log(error);

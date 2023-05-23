@@ -1,4 +1,5 @@
 <%@ page import="linkshare.DocumentResource; javax.print.Doc; linkshare.SeriousnessEnum; linkshare.VisibilityEnum; linkshare.Subscription; linkshare.Resource;linkshare.ReadingItem; linkshare.LinkResource;linkshare.DocumentResource" %>
+<%@ taglib prefix="paginate" uri="http://www.grails.org/tags/paginate" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +11,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet"/>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <asset:javascript src="dashboard.js"></asset:javascript>
 
 </head>
@@ -152,54 +155,61 @@
         </div>
         <!-- topic Posts -->
         <div class="col-sm-6 mt-4">
-            <div class="card border-1">
-                <div class="card-header border-1">
-                    <div class="row">
-                        <div class="col-sm-2 mt-2">
-                            <h6>Posts: </h6>
-                        </div>
-                        <div class="col-sm-7 mt-2" style="margin-left: -5ch">
-                            <g:if test="${session.currentUser}"><a href="/TopicShow/index?topicId=${topicDetails.topic.id}">${topicDetails.topic.name}</a></g:if>
-                            <g:else>${topicDetails.topic.name}</g:else>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="input-group rounded">
-                                <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                                <span class="input-group-text border-0" id="search-addon">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body" style="background-color: rgba(69, 68, 70, 0.144);">
-                    <div class="scrollable-container" style="overflow-y:scroll; max-height:270px">
-                        <g:each in="${topicPost}" var="topic">
-                            <div class="row mt-2">
-                                <div class="col-sm-2">
-                                    <g:if test="${session.currentUser}"><a href="/User/userProfile?user=${topic.createdBy.id}"><g:img dir="images" file="${topic.createdBy.photo}"  width="80" height="80"/></a></g:if>
-                                    <g:else><g:img dir="images" file="${topic.createdBy.photo}"  width="80" height="80"/></g:else>
-                                </div>
-                                <div class="col-sm-10">
-                                    <h5>${topic.description}</h5>
-                                    <g:if test="${session.currentUser}">
-                                        <div class="row mt-4">
-                                             <div class="col-sm-2"></div>
-                                             <div class="col-sm-10 offset-3">
-                                                <g:if test="${topic.instanceOf(linkshare.LinkResource)}"><a href="${topic.url}" style="font-size: small; margin-left:2ch">View Full Site</a></g:if>
-                                                <g:else><a href="${topic.filePath}" style="font-size:small">Download</a></g:else>
-                                                 <a href="#" onclick="markAsRead(${topic.id})" style="font-size: small; margin-left:2ch">Mark As Read</a>
-                                                <a href="/ShowPost/index?resourceId=${topic.id}" style="font-size: small; margin-left:2ch">View Post</a>
-                                            </div>
-                                        </div>
-                                    </g:if>
-                                </div>
-                                <span class="border border-secondary mt-1"></span>
-                            </div>
-                        </g:each>
-                    </div>
-                </div>
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover" id="topicPostsTable" data-table>
+                   <tr>
+                       <div class="card border-1">
+                           <div class="card-header border-1">
+                               <div class="row">
+                                   <div class="col-sm-2 mt-2">
+                                       <h6>Posts: </h6>
+                                   </div>
+                                   <div class="col-sm-7 mt-2" style="margin-left: -5ch">
+                                       <a href="/TopicShow/index?topicId=${topicDetails.topic.id}">${topicDetails.topic.name}</a>
+                                   </div>
+%{--                                   <div class="col-sm-3">--}%
+%{--                                       <div class="input-group rounded">--}%
+%{--                                           <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />--}%
+%{--                                           <span class="input-group-text border-0" id="search-addon">--}%
+%{--                                               <i class="fas fa-search"></i>--}%
+%{--                                           </span>--}%
+%{--                                       </div>--}%
+%{--                                   </div>--}%
+                               </div>
+                           </div>
+                           <div class="card-body" style="background-color: rgba(69, 68, 70, 0.144);">
+                               <div class="scrollable-container" style="overflow-y:scroll; max-height:270px">
+                                   <g:each in="${topicPost}" var="topic">
+                                       <div class="row mt-2">
+                                           <div class="col-sm-2">
+                                               <g:if test="${session.currentUser}"><a href="/User/userProfile?user=${topic.createdBy.id}"><g:img dir="images" file="${topic.createdBy.photo}"  width="80" height="80"/></a></g:if>
+                                               <g:else><g:img dir="images" file="${topic.createdBy.photo}"  width="80" height="80"/></g:else>
+                                           </div>
+                                           <div class="col-sm-10">
+                                               <h5>${topic.description}</h5>
+                                               <g:if test="${session.currentUser}">
+                                                   <div class="row mt-4">
+                                                       <div class="col-sm-2"></div>
+                                                       <div class="col-sm-10 offset-3">
+                                                           <g:if test="${topic.instanceOf(linkshare.LinkResource)}"><a href="${topic.url}" style="font-size: small; margin-left:2ch">View Full Site</a></g:if>
+                                                           <g:else><a href="${topic.filePath}" style="font-size:small">Download</a></g:else>
+                                                           <a href="#" onclick="markAsRead(${topic.id})" style="font-size: small; margin-left:2ch">Mark As Read</a>
+                                                           <a href="/ShowPost/index?resourceId=${topic.id}" style="font-size: small; margin-left:2ch">View Post</a>
+                                                       </div>
+                                                   </div>
+                                               </g:if>
+                                           </div>
+                                           <span class="border border-secondary mt-1"></span>
+                                       </div>
+                                   </g:each>
+                               </div>
+                           </div>
+                       </div>
+                   </tr>
+                </table>
             </div>
+        </div>
         </div>
     </div>
 </div>

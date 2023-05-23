@@ -11,30 +11,30 @@ class SearchService {
     }
     def searchData(Map params,user){
         if(!user){
-            if(params.query==''){
+            if(params?.query==''){
                 return Topic.list()
             }
             else{
                 return Resource.createCriteria().list{
                     createAlias('topic','t')
                     or{
-                        ilike('t.name', "%${params.query}%")
-                        ilike("description", "%${params.query}%")
+                        ilike('t.name', "%${params?.query}%")
+                        ilike("description", "%${params?.query}%")
                     }
                 }
             }
         }
        else{
             if(user?.isAdmin){
-                if(params.query==''){
+                if(params?.query==''){
                     return Topic.list()
                 }
                 else{
                     return Resource.createCriteria().list{
                         createAlias('topic','t')
                         or{
-                            ilike('t.name', "%${params.query}%")
-                            ilike("description", "%${params.query}%")
+                            ilike('t.name', "%${params?.query}%")
+                            ilike("description", "%${params?.query}%")
                         }
                     }
                 }
@@ -48,8 +48,8 @@ class SearchService {
                             eq 't.createdBy', user
                         }
                         or {
-                            ilike("t.name", "%${params.query}%")
-                            ilike("description", "%${params.query}%")
+                            ilike("t.name", "%${params?.query}%")
+                            ilike("description", "%${params?.query}%")
                         }
                     }
                 }

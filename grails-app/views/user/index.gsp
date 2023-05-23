@@ -9,6 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <asset:javascript src="dashboard.js"></asset:javascript>
+    <asset:javascript src="inputValidation.js"></asset:javascript>
     <style>
     .custom-row {
         height: 100vh;
@@ -115,12 +116,12 @@
                     <g:form controller="Access" action="loginUser">
                         <div class="form-group">
                             <label for="loginEmail">Email/Username:</label>
-                            <input type="text" class="form-control" id="loginEmail" name="loginEmail" required>
-                        </div>
+                            <input type="text" class="form-control" id="loginEmail" name="loginEmail" onclick="textLimit('loginEmail')" required>
+                        </div><div id="loginEmailErrorMessage" style="display: none; color: red;"></div>
                         <div class="form-group">
                             <label for="loginPassword">Password:</label>
-                            <input type="password" class="form-control" id="loginPassword" name="loginPassword" required>
-                        </div>
+                            <input type="password" class="form-control" id="loginPassword" name="loginPassword" onclick="textLimit('loginPassword')"required>
+                        </div><div id="loginPasswordErrorMessage" style="display: none; color: red;"></div>
                         <div class="form-group mt-2">
                             <a data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Forgot Password?</a>
                             <button type="submit" id="login" name="login" class="btn btn-primary offset-4 mt-2">Login</button>
@@ -187,27 +188,31 @@
                         <div class="row mb-3">
                             <div class="col-sm-4">First Name*</div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="firstName" id="firstName" aria-label="First name" required>
+                                <input type="text" class="form-control" name="firstName" id="firstName" aria-label="First name" onclick="textLimit('firstName')" required>
                             </div>
                         </div>
+                        <div id="firstNameErrorMessage" style="display: none; color: red;"></div>
                         <div class="row mb-3">
                             <div class="col-sm-4">Last Name*</div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="lastName" id="lastName" aria-label="Last name" required>
+                                <input type="text" class="form-control" name="lastName" id="lastName" aria-label="Last name" onclick="textLimit('lastName')" required>
                             </div>
                         </div>
+                        <div id="lastNameErrorMessage" style="display: none; color: red;"></div>
                         <div class="row mb-3">
                             <div class="col-sm-4">Email*</div>
                             <div class="col-sm-7">
-                                <input type="email"  name="email" class="form-control" id="email" required>
+                                <input type="email"  name="email" class="form-control" id="email" onclick="textLimit('email')" required>
                             </div>
                         </div>
+                        <div id="emailErrorMessage" style="display: none; color: red;"></div>
                         <div class="row mb-3">
                             <div class="col-sm-4">Username*</div>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="userName" id="userName" aria-label="userName" required>
+                                <input type="text" class="form-control" name="userName" id="userName" aria-label="userName" onclick="textLimit('userName')" required>
                             </div>
                         </div>
+                        <div id="userNameErrorMessage" style="display: none; color: red;"></div>
                         <div class="row mb-3">
                             <div class="col-sm-4">Password*</div>
                             <div class="col-sm-7">
@@ -242,7 +247,7 @@
 <script>
     document.getElementById('register').addEventListener('click', function(event) {
         var fileInput = document.getElementById('userPhoto');
-        var maxFileSize = 1024 * 1024;
+        var maxFileSize = 128 * 1024;
 
         if (fileInput.files.length > 0) {
             var file = fileInput.files[0];

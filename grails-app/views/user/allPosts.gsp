@@ -16,6 +16,7 @@
     <link href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet"/>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <asset:javascript src="admin.js"></asset:javascript>
+    <asset:javascript src="inputValidation.js"></asset:javascript>
 
 
     <style>
@@ -43,7 +44,7 @@
             </button>
             <div class="collapse navbar-collapse offset-4" id="navbarNav">
                 <g:form class="d-flex" role="search" controller="DashboardAccess" action="searchTopic">
-                    <input class="form-control me-2" type="search" name="query" placeholder="Search" aria-label="Search" required>
+                    <input class="form-control me-2" type="search" id="query" name="query" placeholder="Search" aria-label="Search" onclick="textLimit('query')" required>
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </g:form>
                 <ul class="navbar-nav ">
@@ -72,8 +73,8 @@
                                         <g:form controller="DashboardAccess" action="createTopic">
                                             <div class="form-group mb-3">
                                                 <label >Name:</label>
-                                                <input type="text" class="form-control" name="name">
-                                            </div>
+                                                <input type="text" class="form-control" id="createTopicName" name="name" onclick="textLimit('createTopicName')"required>
+                                            </div><div id="createTopicNameErrorMessage" style="display: none; color: red;"></div>
                                             <div class="form-group mb-3">
                                                 <label >Visibility:</label>
                                                 <g:select name="visibility" from="${VisibilityEnum.values()}" optionKey="key" />
@@ -152,12 +153,12 @@
                                         <g:form controller="shareLink" action="shareLink">
                                             <div class="form-group">
                                                 <label for="shareLinkUrl">Url*</label>
-                                                <input type="text" class="form-control" id="shareLinkUrl" name="shareLinkUrl" placeholder="Enter link">
-                                            </div>
+                                                <input type="text" class="form-control" id="shareLinkUrl" name="shareLinkUrl" placeholder="Enter link" onclick="textLimit('shareLinkUrl')" required>
+                                            </div><div id="shareLinkUrlErrorMessage" style="display: none; color: red;"></div>
                                             <div class="form-group">
                                                 <label for="shareLinkDescription">Description</label>
-                                                <textarea class="form-control" id="shareLinkDescription" name="shareLinkDescription" rows="3"></textarea>
-                                            </div>
+                                                <textarea class="form-control" id="shareLinkDescription" name="shareLinkDescription" rows="3" onclick="textLimit('shareLinkDescription')" required></textarea>
+                                            </div><div id="shareLinkDescriptionErrorMessage" style="display: none; color: red;"></div>
                                             <div class="form-group">
                                                 <label >Topic</label>
                                                 <g:select name="shareLinkTopic" id="shareLinkTopic" from="${userDetails["subscribedTopics"]}" noSelection="['':'-Choose Topic-']" required="true" class="form-control"/>
@@ -197,19 +198,19 @@
                                             <div class="form-group">
                                                 <label>Document</label>
                                                 <div class="custom-file">
-                                                    <input type="file" class="custom-file-input"  name="document">
+                                                    <input type="file" class="custom-file-input" id="documentResource" name="documentResource" required>
                                                 </div>
-                                            </div>
+                                            </div><div id="documentResourceErrorMessage" style="display: none; color: red;"></div>
                                             <div class="form-group">
                                                 <label >Description</label>
-                                                <textarea class="form-control" name="documentDescription" rows="3"></textarea>
-                                            </div>
+                                                <textarea class="form-control" id="documentDescription" name="documentDescription" rows="3" onclick="textLimit('documentDescription')" required></textarea>
+                                            </div><div id="documentDescriptionErrorMessage" style="display: none; color: red;"></div>
                                             <div class="form-group">
                                                 <label >Topic</label>
                                                 <g:select name="documentTopic" id="documentTopic" from="${userDetails["subscribedTopics"]}" noSelection="['':'-Choose Topic-']" required="true" class="form-control"/>
                                             </div>
                                             <div class="modal-footer">
-                                                <g:submitButton name="Share" class="btn btn-primary">Share</g:submitButton>
+                                                <g:submitButton id="shareDocument" name="Share" class="btn btn-primary">Share</g:submitButton>
                                                 <Button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</Button>
                                             </div>
                                         </g:uploadForm>
@@ -247,6 +248,7 @@
         </div>
     </nav>
 </div>
+<div id="queryErrorMessage" style="display: none; color: red;"></div>
 <div class="container-fluid" style="padding-top: 50px;">
     <div class="row">
         <div class="table-responsive">
@@ -285,6 +287,39 @@
         </div>
     </div>
 </div>
+<script>
+    document.getElementById('shareDocument').addEventListener('click', function(event) {
+        var fileInput = document.getElementById('documentResource');
+        var maxFileSize = 128 * 1024;
+
+        if (fileInput.files.length > 0) {
+            var file = fileInput.files[0];
+
+            if (file.size > maxFileSize) {
+                displayErrorMessage("Error: The file size exceeds the maximum allowed size of 128KB.");
+                event.preventDefault();
+                return;
+            }
+
+            var allowedTypes = ['file/pdf', 'file/docx', 'file/pptx','file/xls'];
+            if (!allowedTypes.includes(file.type)) {
+                displayErrorMessage("Error: Please choose a proper file (pdf, docx, pptx, xls).");
+                event.preventDefault();
+            }
+        }
+    });
+
+    function displayErrorMessage(message) {
+        var registerErrorMessage = document.getElementById('documentResourceErrorMessage');
+        registerErrorMessage.textContent = message;
+        registerErrorMessage.style.display = 'block';
+    }
+
+    document.getElementById('documentResource').addEventListener('change', function(event) {
+        var registerErrorMessage = document.getElementById('documentResourceErrorMessage');
+        registerErrorMessage.style.display = 'none';
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>

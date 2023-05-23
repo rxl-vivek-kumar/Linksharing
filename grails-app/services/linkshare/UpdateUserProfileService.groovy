@@ -6,15 +6,20 @@ import grails.gorm.transactions.Transactional
 class UpdateUserProfileService {
 
     def serviceMethod(params,userId) {
-        if(User.findByUserName(params.userName)){
+        if(User.findByUserName(params?.userName)){
             return "userName not available"
         }
         User user=User.get(userId as Long)
-        user.firstName=params.firstName
-        user.lastName=params.lastName
-        user.userName=params.userName
-
-        if(params.photo){
+        if(params?.firstName){
+            user.firstName=params?.firstName
+        }
+        if(params?.lastName){
+            user.lastName=params?.lastName
+        }
+        if(params?.userName){
+            user.userName=params?.userName
+        }
+        if(params?.photo){
             def multipartFile=params.photo
             def photoExtension=multipartFile.getOriginalFilename().tokenize('.')[-1]
             def bytes=multipartFile.getBytes()
@@ -28,7 +33,7 @@ class UpdateUserProfileService {
         if(user.save(flush:true,failOnError:true)){
             return "Profile Updated Successfully"
         }else{
-            return ""
+            return "Internal Error Occured"
         }
     }
 

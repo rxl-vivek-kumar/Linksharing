@@ -12,6 +12,9 @@
           integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <asset:javascript src="dashboard.js"></asset:javascript>
+    <asset:javascript src="inputValidation.js"></asset:javascript>
+
 </head>
 <body>
 <div class="bg-img" height="100vh">
@@ -27,7 +30,7 @@
             </button>
             <div class="collapse navbar-collapse offset-4" id="navbarNav">
                     <g:form class="d-flex" role="search" controller="DashboardAccess" action="searchTopic">
-                        <input class="form-control me-2" type="search" name="query" id="query" placeholder="Search" aria-label="Search" required>
+                        <input class="form-control me-2" type="search" name="query" id="query" placeholder="Search" aria-label="Search" onclick="textLimit('query')" required>
                         <button class="btn btn-outline-success" name="search" id="search" type="submit">Search</button>
                     </g:form>
                 <g:if test="${session.currentUser}">
@@ -57,8 +60,8 @@
                                             <g:form controller="DashboardAccess" action="createTopic">
                                                 <div class="form-group mb-3">
                                                     <label >Name:</label>
-                                                    <input type="text" class="form-control" name="name" required>
-                                                </div>
+                                                    <input type="text" class="form-control" name="name" id="createTopicName" onclick="textLimit('createTopicName')"required>
+                                                </div><div id="createTopicNameErrorMessage" style="display: none; color: red;"></div>
                                                 <div class="form-group mb-3">
                                                     <label >Visibility:</label>
                                                     <g:select name="visibility" from="${VisibilityEnum.values()}" optionKey="key" />
@@ -137,12 +140,12 @@
                                             <g:form controller="shareLink" action="shareLink">
                                                 <div class="form-group">
                                                     <label for="shareLinkUrl">Url*</label>
-                                                    <input type="text" class="form-control" id="shareLinkUrl" name="shareLinkUrl" placeholder="Enter link" required>
-                                                </div>
+                                                    <input type="text" class="form-control" id="shareLinkUrl" name="shareLinkUrl" placeholder="Enter link" onclick="textLimit('shareLinkUrl')" required>
+                                                </div><div id="shareLinkUrlErrorMessage" style="display: none; color: red;"></div>
                                                 <div class="form-group">
                                                     <label for="shareLinkDescription">Description</label>
-                                                    <textarea class="form-control" id="shareLinkDescription" name="shareLinkDescription" rows="3" required></textarea>
-                                                </div>
+                                                    <textarea class="form-control" id="shareLinkDescription" name="shareLinkDescription" rows="3" onclick="textLimit('shareLinkDescription')" required></textarea>
+                                                </div><div id="shareLinkDescriptionErrorMessage" style="display: none; color: red;"></div>
                                                 <div class="form-group">
                                                     <label >Topic</label>
                                                     <g:select name="shareLinkTopic" id="shareLinkTopic" from="${userDetails["subscribedTopics"]}" noSelection="['':'-Choose Topic-']" optionValue="${{topic -> topic.name}}" optionKey="${{topic -> topic.id}}" required="true" class="form-control"/>
@@ -182,19 +185,19 @@
                                                 <div class="form-group">
                                                     <label>Document</label>
                                                     <div class="custom-file">
-                                                        <input type="file" class="custom-file-input"  name="document" required>
+                                                        <input type="file" class="custom-file-input"  id="documentResource" name="documentResource" required>
                                                     </div>
-                                                </div>
+                                                </div><div id="documentResourceErrorMessage" style="display: none; color: red;"></div>
                                                 <div class="form-group">
                                                     <label >Description</label>
-                                                    <textarea class="form-control" name="documentDescription" rows="3" required></textarea>
-                                                </div>
+                                                    <textarea class="form-control" id="documentDescription" name="documentDescription" rows="3" onclick="textLimit('documentDescription')" required></textarea>
+                                                </div><div id="documentDescriptionErrorMessage" style="display: none; color: red;"></div>
                                                 <div class="form-group">
                                                     <label >Topic</label>
                                                     <g:select name="documentTopic" id="documentTopic" from="${userDetails["subscribedTopics"]}" noSelection="['':'-Choose Topic-']" optionValue="${{topic -> topic.name}}" optionKey="${{topic -> topic.id}}" required="true" class="form-control"/>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <g:submitButton name="Share" class="btn btn-primary">Share</g:submitButton>
+                                                    <g:submitButton id="shareDocument" name="Share" class="btn btn-primary">Share</g:submitButton>
                                                     <Button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</Button>
                                                 </div>
                                             </g:uploadForm>
@@ -233,27 +236,38 @@
         </div>
     </nav>
 </div>
-<div id="searchErrorMessage" style="display: none; color: red;"></div>
+<div id="queryErrorMessage" style="display: none; color: red;"></div>
 <script>
-    document.getElementById('search').addEventListener('click', function(event) {
-        var keywordInput = document.getElementById('query');
-        var maxCharacters = 255;
+    document.getElementById('shareDocument').addEventListener('click', function(event) {
+        var fileInput = document.getElementById('documentResource');
+        var maxFileSize = 128 * 1024;
 
-        if (keywordInput.value.length > maxCharacters) {
-            displayErrorMessage("Error: The keyword exceeds the maximum limit of 255 characters.");
-            event.preventDefault(); // Prevent form submission
+        if (fileInput.files.length > 0) {
+            var file = fileInput.files[0];
+
+            if (file.size > maxFileSize) {
+                displayErrorMessage("Error: The file size exceeds the maximum allowed size of 128KB.");
+                event.preventDefault();
+                return;
+            }
+
+            var allowedTypes = ['file/pdf', 'file/docx', 'file/pptx','file/xls'];
+            if (!allowedTypes.includes(file.type)) {
+                displayErrorMessage("Error: Please choose a proper file (pdf, docx, pptx, xls).");
+                event.preventDefault();
+            }
         }
     });
 
     function displayErrorMessage(message) {
-        var errorMessage = document.getElementById('searchErrorMessage');
-        errorMessage.textContent = message;
-        errorMessage.style.display = 'block';
+        var registerErrorMessage = document.getElementById('documentResourceErrorMessage');
+        registerErrorMessage.textContent = message;
+        registerErrorMessage.style.display = 'block';
     }
 
-    document.getElementById('query').addEventListener('input', function(event) {
-        var errorMessage = document.getElementById('searchErrorMessage');
-        errorMessage.style.display = 'none';
+    document.getElementById('documentResource').addEventListener('change', function(event) {
+        var registerErrorMessage = document.getElementById('documentResourceErrorMessage');
+        registerErrorMessage.style.display = 'none';
     });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
